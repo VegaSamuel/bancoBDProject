@@ -29,41 +29,118 @@ public class ClientesDAO implements IClientesDAO {
     
     @Override
     public Cliente consultar(Integer id) throws DAOException {
-        String sql = "select * from clientes where id = ?";
-        try(Connection conexion = MANEJADOR_CONEXIONES.crearConexion();
-            PreparedStatement comando = conexion.prepareStatement(sql);){
+        try(
+            Connection conexion = MANAGER.crearConexion();
+            PreparedStatement comando = conexion.prepareStatement(
+                "select nombres, apellido_paterno, "
+                + "apellido_materno, fecha_nacimiento, "
+                + "id_domicilio from clientes where id = ?");  
+        ){
             comando.setInt(1, id);
-            ResultSet resultado = comando.executeQuery();
+            ResultSet registro = comando.executeQuery();
             Cliente cliente = null;
-            while(resultado.next()){
-                Integer idCliente = resultado.getInt("id");
-                String nombre = resultado.getString("nombres");
-                String apellidoPaterno = resultado.getString("apellido_paterno");
-                String apellidoMaterno = resultado.getString("apellido_materno");
+            if (registro.next()){
+                String nombres = registro.getString("nombres");
+                String apellido_paterno = 
+                        registro.getString("apellido_paterno");
+                String apellido_materno = 
+                        registro.getString("apellido_materno");
                 Date fechaNacimiento = resultado.getDate("fecha_nacimiento");
-                Integer idDomicilio = resultado.getInt("id_domicilio");
-                cliente = new Cliente(idCliente, nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, idDomicilio);
+                Integer id_domicilio = registro.getInt("id_domicilio");
+                cliente = new Cliente(nombres, apellido_paterno, 
+                        apellido_materno, fecha_nacimiento, id_domicilio);
             }
-            conexion.close();
             return cliente;
-        }catch(SQLException e){
-            LOG.log(Level.SEVERE, "No se pudo consultar el cliente ", e.getMessage());
-            throw new DAOException("No se pudo consultar el cliente " + e.getMessage());
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, "No se pudo consultar el cliente "
+                    + "{0}", ex.getMessage());
+            throw new DAOException("No se pudo consultar el "
+                    + "cliente " + ex.getMessage());
         }
     }
     
     @Override
     public Cliente insertar(Cliente cliente) throws DAOException {
-        return null;
+        String codigoBD = "insert into clientes "
+                    + "(nombres, apellido_paterno, apellido_materno, "
+                    + "fecha_nacimiento, id_domicilio)";
+        try(
+            Connection conexion = MANAGER.crearConexion();
+            PreparedStatement comando = conexion.prepareStatement(codigoBD, 
+                    Statement.RETURN_GENERATED_KEYS);
+        ){
+            comando.setString(1, cliente.getNombre());
+            comando.setString(2, cliente.getApellido_paterno());
+            comando.setString(3, cliente.getApellido_materno());
+            comando.setDate(4, cliente.getFecha_nacimiento());
+            comando.setInt(5, cliente.getId_domicilio());
+            comando.executeUpdate();
+            ResultSet registroLlaves = comando.getGeneratedKeys();
+            if (registroLlaves.next()){
+                Integer llave = registroLlaves.getInt(Statement.RETURN_GENERATED_KEYS);
+                cliente.setId(llave);
+                return cliente;
+            }
+            LOG.log(Level.WARNING, "Se insertó el cliente sin mostrar la ID");
+            throw new DAOException("Se insertó el cliente sin mostrar la ID");
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, "No se pudo insertar al cliente "
+                    + "{0}", ex.getMessage());
+            throw new DAOException("No se pudo insertar al "
+                    + "cliente " + ex.getMessage());
+        }
     }
     
     @Override
     public Cliente eliminar(Integer id) throws DAOException {
-        return null;
+        Cliente cliente = this.consultar(id);
+        String codigoBD = "delete from clientes where id = ?";
+        try(
+            Connection conexion = MANAGER.crearConexion();
+            PreparedStatement comando = conexion.prepareStatement(codigoBD);
+        ){
+            comando.setInt(1, id);
+            boolean eliminaCliente = comando.execute();
+            return (eliminaCliente) ? cliente : null;
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, "No se pudo eliminar el cliente "
+                    + "{0}", ex.getMessage());
+            throw new DAOException("No se pudo eliminar el "
+                    + "cliente " + ex.getMessage());
+        }
     }
     
     @Override
     public List<Cliente> consultar(ConfigPaginado configPaginado) throws DAOException {
-        return null;
+        String codigoBD = "select nombres, apellido_paterno, "
+                + "apellido_materno, fecha_nacimiento, id_direccion from clientes "
+                + "limit ? offset ?";
+        List<Cliente> listaClientes = new LinkedList<>();
+        try(
+            Connection conexion = MANAGER.crearConexion();
+            PreparedStatement comando = conexion.prepareStatement(codigoBD);
+        ){
+            comando.setInt(1, configPaginado.getElemPagina());
+            comando.setInt(2, configPaginado.getElementosASaltar());
+            ResultSet registro = comando.executeQuery();
+            while(registro.next()){
+                String nombres = registro.getString("nombres");
+                String apellido_paterno = 
+                        registro.getString("apellido_paterno");
+                String apellido_materno = 
+                        registro.getString("apellido_materno");
+                Date fechaNacimiento = resultado.getDate("fecha_nacimiento");
+                Integer id_domicilio = registro.getInt("id_domicilio");
+                Cliente cliente = new Cliente(id, nombre, apellido_paterno, 
+                        apellido_materno, id_direccion);
+                listaClientes.add(cliente);
+            }
+            return listaClientes;
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, "No se pudo eliminar el cliente "
+                    + "{0}", ex.getMessage());
+            throw new DAOException("No se pudo eliminar el "
+                    + "cliente " + ex.getMessage());
+        }
     }
 }
