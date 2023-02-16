@@ -5,7 +5,7 @@ import java.util.Date;
 
 /**
  * Esta clase define a un cliente
- * @author Samuel Vega, Victor Valenzuela
+ * @author Samuel Vega & Victor Gonzales
  */
 public class Cliente {
     private Integer id;
