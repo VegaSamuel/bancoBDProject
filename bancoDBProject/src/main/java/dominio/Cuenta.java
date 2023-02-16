@@ -1,7 +1,7 @@
 //Cuenta.java
 package dominio;
 
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * Esta clase define a una cuenta
