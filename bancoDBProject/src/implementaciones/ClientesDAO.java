@@ -13,7 +13,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
-import java.util.Date;
+import java.sql.Statement;
+import java.sql.Date;
+import java.util.LinkedList;
 
 /**
  * Esta clase contiene la gestión de persistencia con los datos de los clientes
@@ -21,10 +23,10 @@ import java.util.Date;
  */
 public class ClientesDAO implements IClientesDAO {
     private static final Logger LOG = Logger.getLogger(ClientesDAO.class.getName());
-    private final IConexionBD MANEJADOR_CONEXIONES;
+    private final IConexionBD MANAGER;
     
     public ClientesDAO(IConexionBD manejadorConexiones) {
-        this.MANEJADOR_CONEXIONES = manejadorConexiones;
+        this.MANAGER = manejadorConexiones;
     }
     
     @Override
@@ -32,23 +34,18 @@ public class ClientesDAO implements IClientesDAO {
         try(
             Connection conexion = MANAGER.crearConexion();
             PreparedStatement comando = conexion.prepareStatement(
-                "select nombres, apellido_paterno, "
-                + "apellido_materno, fecha_nacimiento, "
-                + "id_domicilio from clientes where id = ?");  
+                "select * from clientes where id = ?");  
         ){
             comando.setInt(1, id);
-            ResultSet registro = comando.executeQuery();
+            ResultSet resultado = comando.executeQuery();
             Cliente cliente = null;
-            if (registro.next()){
-                String nombres = registro.getString("nombres");
-                String apellido_paterno = 
-                        registro.getString("apellido_paterno");
-                String apellido_materno = 
-                        registro.getString("apellido_materno");
+            if (resultado.next()){
+                String nombres = resultado.getString("nombres");
+                String apellidoPaterno = resultado.getString("apellido_paterno");
+                String apellidoMaterno = resultado.getString("apellido_materno");
                 Date fechaNacimiento = resultado.getDate("fecha_nacimiento");
-                Integer id_domicilio = registro.getInt("id_domicilio");
-                cliente = new Cliente(nombres, apellido_paterno, 
-                        apellido_materno, fecha_nacimiento, id_domicilio);
+                Integer idDomicilio = resultado.getInt("id_domicilio");
+                cliente = new Cliente(nombres, apellidoPaterno, apellidoMaterno, fechaNacimiento, idDomicilio);
             }
             return cliente;
         } catch (SQLException ex) {
@@ -61,19 +58,19 @@ public class ClientesDAO implements IClientesDAO {
     
     @Override
     public Cliente insertar(Cliente cliente) throws DAOException {
-        String codigoBD = "insert into clientes "
+        String sql = "insert into clientes "
                     + "(nombres, apellido_paterno, apellido_materno, "
                     + "fecha_nacimiento, id_domicilio)";
         try(
             Connection conexion = MANAGER.crearConexion();
-            PreparedStatement comando = conexion.prepareStatement(codigoBD, 
+            PreparedStatement comando = conexion.prepareStatement(sql, 
                     Statement.RETURN_GENERATED_KEYS);
         ){
             comando.setString(1, cliente.getNombre());
-            comando.setString(2, cliente.getApellido_paterno());
-            comando.setString(3, cliente.getApellido_materno());
-            comando.setDate(4, cliente.getFecha_nacimiento());
-            comando.setInt(5, cliente.getId_domicilio());
+            comando.setString(2, cliente.getApellidoPaterno());
+            comando.setString(3, cliente.getApellidoMaterno());
+            comando.setDate(4, cliente.getFechaNacimiento());
+            comando.setInt(5, cliente.getIdDomicilio());
             comando.executeUpdate();
             ResultSet registroLlaves = comando.getGeneratedKeys();
             if (registroLlaves.next()){
@@ -84,10 +81,8 @@ public class ClientesDAO implements IClientesDAO {
             LOG.log(Level.WARNING, "Se insertó el cliente sin mostrar la ID");
             throw new DAOException("Se insertó el cliente sin mostrar la ID");
         } catch (SQLException ex) {
-            LOG.log(Level.SEVERE, "No se pudo insertar al cliente "
-                    + "{0}", ex.getMessage());
-            throw new DAOException("No se pudo insertar al "
-                    + "cliente " + ex.getMessage());
+            LOG.log(Level.SEVERE, "No se pudo insertar al cliente {0}", ex.getMessage());
+            throw new DAOException("No se pudo insertar al cliente " + ex.getMessage());
         }
     }
     
@@ -103,10 +98,8 @@ public class ClientesDAO implements IClientesDAO {
             boolean eliminaCliente = comando.execute();
             return (eliminaCliente) ? cliente : null;
         } catch (SQLException ex) {
-            LOG.log(Level.SEVERE, "No se pudo eliminar el cliente "
-                    + "{0}", ex.getMessage());
-            throw new DAOException("No se pudo eliminar el "
-                    + "cliente " + ex.getMessage());
+            LOG.log(Level.SEVERE, "No se pudo eliminar el cliente {0}", ex.getMessage());
+            throw new DAOException("No se pudo eliminar el cliente " + ex.getMessage());
         }
     }
     
@@ -122,25 +115,21 @@ public class ClientesDAO implements IClientesDAO {
         ){
             comando.setInt(1, configPaginado.getElemPagina());
             comando.setInt(2, configPaginado.getElementosASaltar());
-            ResultSet registro = comando.executeQuery();
-            while(registro.next()){
-                String nombres = registro.getString("nombres");
-                String apellido_paterno = 
-                        registro.getString("apellido_paterno");
-                String apellido_materno = 
-                        registro.getString("apellido_materno");
+            ResultSet resultado = comando.executeQuery();
+            while(resultado.next()){
+                Integer id = resultado.getInt("id");
+                String nombre = resultado.getString("nombres");
+                String apellidoPaterno = resultado.getString("apellido_paterno");
+                String apellidoMaterno = resultado.getString("apellido_materno");
                 Date fechaNacimiento = resultado.getDate("fecha_nacimiento");
-                Integer id_domicilio = registro.getInt("id_domicilio");
-                Cliente cliente = new Cliente(id, nombre, apellido_paterno, 
-                        apellido_materno, id_direccion);
+                Integer idDomicilio = resultado.getInt("id_domicilio");
+                Cliente cliente = new Cliente(id, nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, idDomicilio);
                 listaClientes.add(cliente);
             }
             return listaClientes;
         } catch (SQLException ex) {
-            LOG.log(Level.SEVERE, "No se pudo eliminar el cliente "
-                    + "{0}", ex.getMessage());
-            throw new DAOException("No se pudo eliminar el "
-                    + "cliente " + ex.getMessage());
+            LOG.log(Level.SEVERE, "No se pudo eliminar el cliente {0}", ex.getMessage());
+            throw new DAOException("No se pudo eliminar el cliente " + ex.getMessage());
         }
     }
 }
