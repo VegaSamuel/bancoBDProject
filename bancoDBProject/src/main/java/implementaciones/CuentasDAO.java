@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import util.ConfigPaginado;
 
@@ -20,7 +21,7 @@ import util.ConfigPaginado;
  * @author Samuel Vega & Victor Gonzalez
  */
 public class CuentasDAO implements ICuentaDAO {
-    private static final Logger LOG = Logger.getLogger(ClientesDAO.class.getName());
+    private static final Logger LOG = Logger.getLogger(CuentasDAO.class.getName());
     private final IConexionBD MANAGER;
 
     public CuentasDAO(IConexionBD manejadorConexiones) {
@@ -28,13 +29,13 @@ public class CuentasDAO implements ICuentaDAO {
     }
     
     @Override
-    public Cuenta consultar(Integer numero) throws DAOException {
+    public Cuenta consultar(Integer noCuenta) throws DAOException {
         try(
             Connection conexion = MANAGER.crearConexion();
             PreparedStatement comando = conexion.prepareStatement(
                 "select * from cuentas where id = ?");  
         ){
-            comando.setInt(1, numero);
+            comando.setInt(1, noCuenta);
             ResultSet resultado = comando.executeQuery();
             Cuenta cuenta = null;
             if (resultado.next()){
@@ -53,8 +54,29 @@ public class CuentasDAO implements ICuentaDAO {
 
     @Override
     public Cuenta insertar(Cuenta cuenta) throws DAOException {
-        // TODO Auto-generated method stub
-        return null;
+        String sql = "insert into cuentas "
+                    + "(fecha_apertura, saldo, id_cliente)";
+        try(
+            Connection conexion = MANAGER.crearConexion();
+            PreparedStatement comando = conexion.prepareStatement(sql, 
+                    Statement.RETURN_GENERATED_KEYS);
+        ){
+            comando.setDate(1, cuenta.getFechaApertura());
+            comando.setFloat(2, cuenta.getSaldo());
+            comando.setInt(3, cuenta.getIdClientes());
+            comando.executeUpdate();
+            ResultSet registroLlaves = comando.getGeneratedKeys();
+            if (registroLlaves.next()){
+                Integer llave = registroLlaves.getInt(Statement.RETURN_GENERATED_KEYS);
+                cuenta.setNoCuenta(llave);;
+                return cuenta;
+            }
+            LOG.log(Level.WARNING, "Se insertó la cuenta sin mostrar la ID");
+            throw new DAOException("Se insertó la cuenta sin mostrar la ID");
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, "No se pudo insertar la cuenta {0}", ex.getMessage());
+            throw new DAOException("No se pudo insertar la cuenta " + ex.getMessage());
+        }
     }
 
     @Override

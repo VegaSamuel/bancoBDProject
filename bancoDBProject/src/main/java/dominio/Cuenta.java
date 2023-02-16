@@ -14,7 +14,7 @@ public class Cuenta {
     private Integer idClientes;
 
     /**
-     * Constructor por omisión
+     * Constructor por omisiï¿½n
      */
     public Cuenta() {
         
@@ -42,7 +42,7 @@ public class Cuenta {
         this.noCuenta = noCuenta;
     }
 
-    public Date getFechaApertura() {
+    public java.sql.Date getFechaApertura() {
         return fechaApertura;
     }
 
