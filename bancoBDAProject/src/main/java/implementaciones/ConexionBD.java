@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 /**
  *
- * @author Samuel Vega & Victor Gonzales
+ * @author Samuel Vega & Victor Gonzalez
  */
 public class ConexionBD implements IConexionBD {
     //Variables de la clase

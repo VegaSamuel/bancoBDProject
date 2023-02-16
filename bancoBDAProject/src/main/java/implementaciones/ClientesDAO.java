@@ -19,7 +19,7 @@ import java.util.LinkedList;
 
 /**
  * Esta clase contiene la gestión de persistencia con los datos de los clientes
- * @author Samuel & Victor Gonzales
+ * @author Samuel & Victor Gonzalez
  */
 public class ClientesDAO implements IClientesDAO {
     private static final Logger LOG = Logger.getLogger(ClientesDAO.class.getName());
