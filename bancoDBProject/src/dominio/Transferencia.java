@@ -6,7 +6,7 @@
 package Dominio;
 
 /**
- * @author Victor
+ * @author Samuel Vega y Victor González
  * @version IDE 8.2
  */
 public class Transferencia {
