@@ -14,7 +14,7 @@ public class Cuenta {
     private Integer idClientes;
 
     /**
-     * Constructor por omisiÃ³n
+     * Constructor por omisión
      */
     public Cuenta() {
         
