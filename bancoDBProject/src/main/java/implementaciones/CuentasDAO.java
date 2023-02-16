@@ -33,7 +33,7 @@ public class CuentasDAO implements ICuentaDAO {
         try(
             Connection conexion = MANAGER.crearConexion();
             PreparedStatement comando = conexion.prepareStatement(
-                "select * from cuentas where id = ?");  
+                "select * from cuentas where noCuenta = ?");  
         ){
             comando.setInt(1, noCuenta);
             ResultSet resultado = comando.executeQuery();
@@ -81,8 +81,19 @@ public class CuentasDAO implements ICuentaDAO {
 
     @Override
     public Cuenta eliminar(Integer noCuenta) throws DAOException {
-        // TODO Auto-generated method stub
-        return null;
+        Cuenta cuenta = this.consultar(noCuenta);
+        String codigoBD = "delete from cuentas where noCuenta = ?";
+        try(
+            Connection conexion = MANAGER.crearConexion();
+            PreparedStatement comando = conexion.prepareStatement(codigoBD);
+        ){
+            comando.setInt(1, noCuenta);
+            boolean eliminaCuenta = comando.execute();
+            return (eliminaCuenta) ? cuenta : null;
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, "No se pudo eliminar la cuenta {0}", ex.getMessage());
+            throw new DAOException("No se pudo eliminar la cuenta " + ex.getMessage());
+        }
     }
 
     @Override
