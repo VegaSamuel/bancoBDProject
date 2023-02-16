@@ -5,8 +5,6 @@
  */
 package Dominio;
 
-import dominio.Cuenta;
-
 /**
  * @author Victor
  * @version IDE 8.2
