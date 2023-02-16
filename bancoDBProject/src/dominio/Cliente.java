@@ -15,6 +15,47 @@ public class Cliente {
     private Date fechaNacimiento;
     private Integer idDomicilio;
 
+    /**
+     * Constructor por omisión
+     */
+    public Cliente() {
+        
+    }
+    
+    /**
+     * Constructor que inicializa los atributos de la clase, excepto el id
+     * @param nombre Nombre del cliente
+     * @param apellidoPaterno Apellido paterno del cliente
+     * @param apellidoMaterno Apellido materno del cliente
+     * @param fechaNacimiento Fecha de nacimiento del cliente
+     * @param idDomicilio Domicilio del cliente
+     */
+    public Cliente(String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, Integer idDomicilio) {
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.fechaNacimiento = fechaNacimiento;
+        this.idDomicilio = idDomicilio;
+    }
+    
+    /**
+     * Constructor que inicializa los atributos de la clase, excepto el id
+     * @param id id del cliente
+     * @param nombre Nombre del cliente
+     * @param apellidoPaterno Apellido paterno del cliente
+     * @param apellidoMaterno Apellido materno del cliente
+     * @param fechaNacimiento Fecha de nacimiento del cliente
+     * @param idDomicilio Domicilio del cliente
+     */
+    public Cliente(Integer id, String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, Integer idDomicilio) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.fechaNacimiento = fechaNacimiento;
+        this.idDomicilio = idDomicilio;
+    }
+    
     public Integer getId() {
         return id;
     }
