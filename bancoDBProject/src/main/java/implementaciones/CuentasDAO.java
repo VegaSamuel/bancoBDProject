@@ -61,7 +61,7 @@ public class CuentasDAO implements ICuentaDAO {
             PreparedStatement comando = conexion.prepareStatement(sql, 
                     Statement.RETURN_GENERATED_KEYS);
         ){
-            comando.setDate(1, cuenta.getFechaApertura());
+            comando.setDate(1, (Date) cuenta.getFechaApertura());
             comando.setFloat(2, cuenta.getSaldo());
             comando.setInt(3, cuenta.getIdClientes());
             comando.executeUpdate();

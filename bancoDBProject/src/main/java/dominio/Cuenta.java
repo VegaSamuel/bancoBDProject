@@ -42,7 +42,7 @@ public class Cuenta {
         this.noCuenta = noCuenta;
     }
 
-    public java.sql.Date getFechaApertura() {
+    public Date getFechaApertura() {
         return fechaApertura;
     }
 
