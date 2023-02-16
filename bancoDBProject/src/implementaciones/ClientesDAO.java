@@ -113,7 +113,7 @@ public class ClientesDAO implements IClientesDAO {
     @Override
     public List<Cliente> consultar(ConfigPaginado configPaginado) throws DAOException {
         String codigoBD = "select nombres, apellido_paterno, "
-                + "apellido_materno, fecha_nacimiento, id_direccion from clientes "
+                + "apellido_materno, fecha_nacimiento, id_domicilio from clientes "
                 + "limit ? offset ?";
         List<Cliente> listaClientes = new LinkedList<>();
         try(
