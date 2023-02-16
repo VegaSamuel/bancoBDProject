@@ -5,8 +5,6 @@
  */
 package Dominio;
 
-import dominio.Cuenta;
-
 /**
  * @author Samuel Vega y Victor González
  * @version IDE 8.2
