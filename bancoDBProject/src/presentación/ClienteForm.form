@@ -30,10 +30,8 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="lblFechaNacimiento" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="lblNombres" max="32767" attributes="0"/>
-                                  <Component id="lblID" max="32767" attributes="0"/>
-                              </Group>
+                              <Component id="lblNombres" max="32767" attributes="0"/>
+                              <Component id="lblID" max="32767" attributes="0"/>
                               <Component id="lblApellidoPaterno" max="32767" attributes="0"/>
                               <Component id="lblApellidoMaterno" alignment="0" max="32767" attributes="0"/>
                           </Group>
