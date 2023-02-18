@@ -75,7 +75,7 @@ public class ClienteForm extends javax.swing.JFrame {
             Cliente cliente = this.extraerDatosFormulario();
             Cliente clienteGuardado = this.clientesDAO.insertar(cliente);
             cargarTablaClientes();
-            this.mostrarMensajeClienteGuardado(cliente);
+            this.mostrarMensajeClienteGuardado(clienteGuardado);
         }catch(DAOException e){
             this.mostrarMensajeErrorGuardado();
         }
