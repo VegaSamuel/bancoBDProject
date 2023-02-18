@@ -13,6 +13,7 @@ public class Cliente {
     private String apellidoPaterno;
     private String apellidoMaterno;
     private Date fechaNacimiento;
+    private Integer edad;
     private Integer idDomicilio;
 
     /**
@@ -39,7 +40,7 @@ public class Cliente {
     }
     
     /**
-     * Constructor que inicializa los atributos de la clase, excepto el id
+     * Constructor que inicializa los atributos de la clase
      * @param id id del cliente
      * @param nombre Nombre del cliente
      * @param apellidoPaterno Apellido paterno del cliente
@@ -53,6 +54,26 @@ public class Cliente {
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
         this.fechaNacimiento = fechaNacimiento;
+        this.idDomicilio = idDomicilio;
+    }
+    
+    /**
+     * Constructor que inicializa los atributos de la clase, con la edad
+     * @param id id del cliente
+     * @param nombre Nombre del cliente
+     * @param apellidoPaterno Apellido paterno del cliente
+     * @param apellidoMaterno Apellido materno del cliente
+     * @param fechaNacimiento Fecha de nacimiento del cliente
+     * @param edad Edad del cliente
+     * @param idDomicilio Domicilio del cliente
+     */
+    public Cliente(Integer id, String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, Integer edad, Integer idDomicilio) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.fechaNacimiento = fechaNacimiento;
+        this.edad = edad;
         this.idDomicilio = idDomicilio;
     }
     
@@ -102,6 +123,14 @@ public class Cliente {
 
     public void setIdDomicilio(Integer idDomicilio) {
         this.idDomicilio = idDomicilio;
+    }
+
+    public Integer getEdad() {
+        return edad;
+    }
+
+    public void setEdad(Integer edad) {
+        this.edad = edad;
     }
     
     public void crearCuenta(){

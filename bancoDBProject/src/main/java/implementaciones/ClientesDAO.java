@@ -105,9 +105,8 @@ public class ClientesDAO implements IClientesDAO {
     
     @Override
     public List<Cliente> consultar(ConfigPaginado configPaginado) throws DAOException {
-        String codigoBD = "select nombres, apellido_paterno, "
-                + "apellido_materno, fecha_nacimiento, id_domicilio from clientes "
-                + "limit ? offset ?";
+        String codigoBD = "select id, nombres, apellido_paterno, apellido_materno, fecha_nacimiento, (year(current_date()) - year(fecha_nacimiento)) as edad, id_domicilio from clientes "
+                        + "limit ? offset ?";
         List<Cliente> listaClientes = new LinkedList<>();
         try(
             Connection conexion = MANAGER.crearConexion();
@@ -122,8 +121,9 @@ public class ClientesDAO implements IClientesDAO {
                 String apellidoPaterno = resultado.getString("apellido_paterno");
                 String apellidoMaterno = resultado.getString("apellido_materno");
                 Date fechaNacimiento = resultado.getDate("fecha_nacimiento");
+                Integer edad = resultado.getInt("edad");
                 Integer idDomicilio = resultado.getInt("id_domicilio");
-                Cliente cliente = new Cliente(id, nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, idDomicilio);
+                Cliente cliente = new Cliente(id, nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, edad, idDomicilio);
                 listaClientes.add(cliente);
             }
             return listaClientes;
