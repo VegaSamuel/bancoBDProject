@@ -16,7 +16,7 @@ import util.ConfigPaginado;
 
 /**
  *
- * @author Samuel Vega & Victor Gonzales
+ * @author Samuel Vega & Victor Gonzalez
  */
 public class DomiciliosDAO implements IDomicilioDAO {
     private static final Logger LOG = Logger.getLogger(DomiciliosDAO.class.getName());
@@ -51,18 +51,72 @@ public class DomiciliosDAO implements IDomicilioDAO {
 
     @Override
     public Domicilio insertar(Domicilio domicilio) throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "insert into domicilio "
+                    + "(calle, numero, colonia)";
+        try(
+            Connection conexion = MANAGER.crearConexion();
+            PreparedStatement comando = conexion.prepareStatement(sql, 
+                    Statement.RETURN_GENERATED_KEYS);
+        ){
+            comando.setString(1, domicilio.getCalle());
+            comando.setInt(2, domicilio.getNumero());
+            comando.setString(3, domicilio.getColonia());
+            comando.executeUpdate();
+            ResultSet registroLlaves = comando.getGeneratedKeys();
+            if (registroLlaves.next()){
+                Integer llave = registroLlaves.getInt(Statement.RETURN_GENERATED_KEYS);
+                cuenta.setNoCuenta(llave);;
+                return cuenta;
+            }
+            LOG.log(Level.WARNING, "Se insertó el domicilio sin mostrar la ID");
+            throw new DAOException("Se insertó el domicilio sin mostrar la ID");
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, "No se pudo insertar el domicilio {0}", ex.getMessage());
+            throw new DAOException("No se pudo insertar el domicilio " + ex.getMessage());
+        }
     }
 
     @Override
     public Domicilio eliminar(Integer id) throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Domicilio domicilio = this.consultar(id));
+        String codigoBD = "delete from domicilio where id = ?";
+        try(
+            Connection conexion = MANAGER.crearConexion();
+            PreparedStatement comando = conexion.prepareStatement(codigoBD);
+        ){
+            comando.setInt(1, id);
+            boolean eliminaDomicilio = comando.execute();
+            return (eliminaDomicilio) ? domicilio : null;
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, "No se pudo eliminar el domicilio {0}", ex.getMessage());
+            throw new DAOException("No se pudo eliminar el domicilio " + ex.getMessage());
+        }
     }
 
     @Override
     public List<Domicilio> consultar(ConfigPaginado configPaginado) throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    
+        String sql = "select * from domicilio"
+                   + "limit ? offset ?";
+        List<Domicilio> listaDomicilio = new LinkedList<>();
+        try(
+            Connection conexion = MANAGER.crearConexion();
+            PreparedStatement comando = conexion.prepareStatement(sql);
+        ){
+            comando.setInt(1, configPaginado.getElemPagina());
+            comando.setInt(2, configPaginado.getElementosASaltar());
+            ResultSet resultado = comando.executeQuery();
+            if(resultado.next()) {
+                Integer id = resultado.getInt("id");
+                String calle = resultado.getString("calle");
+                Int numero = resultado.getInt("numero");
+                String colonia = resultado.getString("colonia");
+                Domicilio domicilio = new Domicilio(id, calle, numero, colonia);
+                listaDomicilio.add(domicilio);
+            }
+            return listaDomicilio;
+        }catch(SQLException ex) {
+            LOG.log(Level.SEVERE, "No se pudo consultar la lista de domicilios {0}", ex.getMessage());
+            throw new DAOException("No se pudo consultar la lista de domicilios" + ex.getMessage());
+        }
+    } 
 }
