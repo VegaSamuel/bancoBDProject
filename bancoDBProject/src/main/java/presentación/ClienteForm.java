@@ -121,6 +121,7 @@ public class ClienteForm extends javax.swing.JFrame {
         btnSiguiente = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Clientes");
 
         lblID.setText("ID");
 
