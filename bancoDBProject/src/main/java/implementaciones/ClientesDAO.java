@@ -58,9 +58,8 @@ public class ClientesDAO implements IClientesDAO {
     
     @Override
     public Cliente insertar(Cliente cliente) throws DAOException {
-        String sql = "insert into clientes "
-                    + "(nombres, apellido_paterno, apellido_materno, "
-                    + "fecha_nacimiento, id_domicilio)";
+        String sql = "insert into clientes (nombres, apellido_paterno, apellido_materno, fecha_nacimiento, id_domicilio)"
+                   + "values(?, ?, ?, ?, ?)";
         try(
             Connection conexion = MANAGER.crearConexion();
             PreparedStatement comando = conexion.prepareStatement(sql, 
