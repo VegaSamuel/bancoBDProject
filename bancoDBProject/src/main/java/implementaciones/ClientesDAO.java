@@ -128,8 +128,8 @@ public class ClientesDAO implements IClientesDAO {
             }
             return listaClientes;
         } catch (SQLException ex) {
-            LOG.log(Level.SEVERE, "No se pudo eliminar el cliente {0}", ex.getMessage());
-            throw new DAOException("No se pudo eliminar el cliente " + ex.getMessage());
+            LOG.log(Level.SEVERE, "No se pudo consultar la lista de clientes {0}", ex.getMessage());
+            throw new DAOException("No se pudo  consultar la lista de clientes" + ex.getMessage());
         }
     }
 }

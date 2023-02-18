@@ -38,7 +38,7 @@ public class DomiciliosDAO implements IDomicilioDAO {
             if(resultado.next()) {
                 Integer idDomicilio = resultado.getInt("id");
                 String calle = resultado.getString("calle");
-                Integer numero = resultado.getInt("calle");
+                Integer numero = resultado.getInt("numero");
                 String colonia = resultado.getString("colonia");
                 domicilio = new Domicilio(idDomicilio, calle, numero, colonia);
             }

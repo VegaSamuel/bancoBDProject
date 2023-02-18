@@ -13,6 +13,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import util.ConfigPaginado;
 
@@ -97,9 +98,30 @@ public class CuentasDAO implements ICuentaDAO {
     }
 
     @Override
-    public List<Cuenta> consultar(ConfigPaginado condigPaginado) throws DAOException {
-        // TODO Auto-generated method stub
-        return null;
+    public List<Cuenta> consultar(ConfigPaginado configPaginado) throws DAOException {
+        String sql = "select * from cuentas"
+                   + "limit ? offset ?";
+        List<Cuenta> listaCuenta = new LinkedList<>();
+        try(
+            Connection conexion = MANAGER.crearConexion();
+            PreparedStatement comando = conexion.prepareStatement(sql);
+        ){
+            comando.setInt(1, configPaginado.getElemPagina());
+            comando.setInt(2, configPaginado.getElementosASaltar());
+            ResultSet resultado = comando.executeQuery();
+            if(resultado.next()) {
+                Integer noCuenta = resultado.getInt("no_cuenta");
+                Date fechaApertura = resultado.getDate("fecha_apertura");
+                Float saldo = resultado.getFloat("saldo");
+                Integer idClientes = resultado.getInt("id_clientes");
+                Cuenta cuenta = new Cuenta(noCuenta, fechaApertura, saldo, idClientes);
+                listaCuenta.add(cuenta);
+            }
+            return listaCuenta;
+        }catch(SQLException ex) {
+            LOG.log(Level.SEVERE, "No se pudo consultar la lista de cuentas {0}", ex.getMessage());
+            throw new DAOException("No se pudo consultar la lista de cuentas" + ex.getMessage());
+        }
     }
     
 }
