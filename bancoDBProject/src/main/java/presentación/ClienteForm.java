@@ -1,19 +1,95 @@
 //ClienteForm.java
 package presentación;
 
+import dominio.Cliente;
+import excepciones.DAOException;
+import interfaces.IClientesDAO;
+import java.sql.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import util.ConfigPaginado;
+
 /**
  * Esta clase muestra la interfaz gráfica para facilitar el uso del programa.
  * @author Samuel Vega & Victor Gonzales
  */
 public class ClienteForm extends javax.swing.JFrame {
-
+    private static final Logger LOG = Logger.getLogger(ClienteForm.class.getName());
+    private final IClientesDAO clientesDAO;
+    private final ConfigPaginado configPaginado;
+    
     /**
      * Crea un nuevo form ClienteForm
      */
-    public ClienteForm() {
+    public ClienteForm(IClientesDAO clientesDAO) {
+        this.clientesDAO = clientesDAO;
+        this.configPaginado = new ConfigPaginado(0, 3);
         initComponents();
+        this.cargarTablaClientes();
+    }
+    
+    private void cargarTablaClientes() {
+        try {
+            List<Cliente> listaClientes = this.clientesDAO.consultar(configPaginado);
+            DefaultTableModel modeloTabla = (DefaultTableModel) this.tblClientes.getModel();
+            listaClientes.forEach(cliente -> {
+                Object[] fila = {
+                    cliente.getId(),
+                    cliente.getNombre(),
+                    cliente.getApellidoPaterno(),
+                    cliente.getApellidoMaterno(),
+                    cliente.getFechaNacimiento(),
+                    cliente.getIdDomicilio()};
+                modeloTabla.addRow(fila);
+                });
+        }catch(DAOException e) {
+            LOG.log(Level.SEVERE, "No se pudo crear la lista ",e.getMessage());
+        }
+    }
+    
+    private void mostrarMensajeClienteGuardado(Cliente cliente) {
+        JOptionPane.showMessageDialog(this, "Se agregó el cliente " + cliente.getId(), "Información", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    private void mostrarMensajeErrorGuardado() {
+        JOptionPane.showMessageDialog(this, "No se pudo agregar el cliente", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    
+    private Cliente extraerDatosFormulario() {
+        Cliente cliente = null;
+        
+        cliente.setNombre(txtNombres.getText());
+        cliente.setApellidoPaterno(txtApellidoPaterno.getText());
+        cliente.setApellidoMaterno(txtApellidoMaterno.getText());
+        cliente.setIdDomicilio(cbxDomicilio.getSelectedIndex());
+        
+        return cliente;
     }
 
+    private void guardar() {
+        try{
+            Cliente cliente = this.extraerDatosFormulario();
+            Cliente clienteGuardado = this.clientesDAO.insertar(cliente);
+            cargarTablaClientes();
+            this.mostrarMensajeClienteGuardado(cliente);
+        }catch(DAOException e){
+            this.mostrarMensajeErrorGuardado();
+        }
+    }
+    
+    private void siguientePagina() {
+        configPaginado.avanzarPagina();
+        cargarTablaClientes();
+    }
+    
+    private void paginaAnterior() {
+        configPaginado.retrocederPagina();
+        cargarTablaClientes();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -56,6 +132,8 @@ public class ClienteForm extends javax.swing.JFrame {
         lblFechaNacimiento.setText("Fecha de Nacimiento");
 
         lblDomicilio.setText("Domicilio");
+
+        txtID.setEditable(false);
 
         tblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -109,8 +187,18 @@ public class ClienteForm extends javax.swing.JFrame {
         });
 
         btnAnterior.setText("Anterior");
+        btnAnterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnteriorActionPerformed(evt);
+            }
+        });
 
         btnSiguiente.setText("Siguiente");
+        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiguienteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -123,9 +211,8 @@ public class ClienteForm extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblFechaNacimiento)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(lblNombres, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(lblNombres, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(lblApellidoPaterno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(lblApellidoMaterno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(lblDomicilio)))
@@ -197,12 +284,20 @@ public class ClienteForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
+        guardar();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
+        paginaAnterior();
+    }//GEN-LAST:event_btnAnteriorActionPerformed
+
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+        siguientePagina();
+    }//GEN-LAST:event_btnSiguienteActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;
