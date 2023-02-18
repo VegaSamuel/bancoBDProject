@@ -122,6 +122,5 @@ public class CuentasDAO implements ICuentaDAO {
             LOG.log(Level.SEVERE, "No se pudo consultar la lista de cuentas {0}", ex.getMessage());
             throw new DAOException("No se pudo consultar la lista de cuentas" + ex.getMessage());
         }
-    }
-    
+    } 
 }

@@ -3,7 +3,7 @@ package dominio;
 
 /**
  * Esta clase define un domicilio
- * @author Samuel Vega & Victor Gonzales
+ * @author Samuel Vega & Victor Gonzalez
  */
 public class Domicilio {
     private Integer id;
