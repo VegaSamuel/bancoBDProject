@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -65,8 +67,8 @@ public class DomiciliosDAO implements IDomicilioDAO {
             ResultSet registroLlaves = comando.getGeneratedKeys();
             if (registroLlaves.next()){
                 Integer llave = registroLlaves.getInt(Statement.RETURN_GENERATED_KEYS);
-                cuenta.setNoCuenta(llave);;
-                return cuenta;
+                domicilio.setId(llave);;
+                return domicilio;
             }
             LOG.log(Level.WARNING, "Se insertó el domicilio sin mostrar la ID");
             throw new DAOException("Se insertó el domicilio sin mostrar la ID");
@@ -78,7 +80,7 @@ public class DomiciliosDAO implements IDomicilioDAO {
 
     @Override
     public Domicilio eliminar(Integer id) throws DAOException {
-        Domicilio domicilio = this.consultar(id));
+        Domicilio domicilio = this.consultar(id);
         String codigoBD = "delete from domicilio where id = ?";
         try(
             Connection conexion = MANAGER.crearConexion();
@@ -108,7 +110,7 @@ public class DomiciliosDAO implements IDomicilioDAO {
             if(resultado.next()) {
                 Integer id = resultado.getInt("id");
                 String calle = resultado.getString("calle");
-                Int numero = resultado.getInt("numero");
+                Integer numero = resultado.getInt("numero");
                 String colonia = resultado.getString("colonia");
                 Domicilio domicilio = new Domicilio(id, calle, numero, colonia);
                 listaDomicilio.add(domicilio);
