@@ -14,17 +14,17 @@ public class Retiro {
     private Float monto_retirado;
     private Integer folio;
     private Integer contraseña;
-    private Cuenta cuenta;
+    private Cuenta cuenta_retiro;
 
     public Retiro() {
     }
 
-    public Retiro(Integer id_retiro, Float monto_retirado, Integer folio, Integer contraseña, Cuenta cuenta) {
+    public Retiro(Integer id_retiro, Float monto_retirado, Integer folio, Integer contraseña, Cuenta cuenta_retiro) {
         this.id_retiro = id_retiro;
         this.monto_retirado = monto_retirado;
         this.folio = folio;
         this.contraseña = contraseña;
-        this.cuenta = cuenta;
+        this.cuenta_retiro = cuenta_retiro;
     }
 
     public Integer getId_retiro() {
@@ -59,12 +59,12 @@ public class Retiro {
         this.contraseña = contraseña;
     }
 
-    public Cuenta getCuenta() {
-        return cuenta;
+    public Cuenta getCuentaRetiro() {
+        return cuenta_retiro;
     }
 
-    public void setCuenta(Cuenta cuenta) {
-        this.cuenta = cuenta;
+    public void setCuentaRetiro(Cuenta cuenta_retiro) {
+        this.cuenta_retiro = cuenta_retiro;
     }
     
 }

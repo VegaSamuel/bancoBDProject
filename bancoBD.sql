@@ -27,3 +27,21 @@ create table cuentas(
     id_clientes int not null,
     foreign key (id_clientes) references clientes(id)
 );
+
+create table transferencias(
+	id_transferencia int not null primary key auto_increment,
+    monto_a_transferir float(10,2) not null default 0,
+    cuenta_transfer int not null,
+    cuenta_recibo int not null,
+    foreign key (cuenta_transfer) references cuentas(no_cuenta),
+    foreign key (cuenta_recibo) references cuentas(no_cuenta)
+);
+
+create table retiros(
+	id_retiro int not null primary key auto_increment,
+    monto_retirado float(10,2) not null default 0,
+    folio int not null,
+    contraseña int not null,
+    cuenta_retiro int not null,
+    foreign key (cuenta_retiro) references cuentas(no_cuenta)
+);
