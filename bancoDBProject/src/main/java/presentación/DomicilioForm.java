@@ -33,7 +33,7 @@ public class DomicilioForm extends javax.swing.JFrame {
     private void cargarTablaDomicilio() {
         try {
             List<Domicilio> listaDomicilios = this.domicilioDAO.consultar(configPaginado);
-            DefaultTableModel modeloTabla = (DefaultTableModel) tblDomicilio.getModel();
+            DefaultTableModel modeloTabla = (DefaultTableModel) this.tblDomicilio.getModel();
             listaDomicilios.forEach(domicilio -> {
                 Object[] fila = {
                     domicilio.getId(),

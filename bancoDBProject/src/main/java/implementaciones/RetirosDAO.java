@@ -112,7 +112,7 @@ public class RetirosDAO implements IRetiroDAO {
             comando.setInt(1, configPaginado.getElemPagina());
             comando.setInt(2, configPaginado.getElementosASaltar());
             ResultSet resultado = comando.executeQuery();
-            if(resultado.next()) {
+            while(resultado.next()) {
                 Integer idRetiro = resultado.getInt("id_cuenta");
                 Float montoRetirado = resultado.getFloat("monto_retirado");
                 Integer folio = resultado.getInt("folio");

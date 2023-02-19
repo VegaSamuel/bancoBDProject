@@ -107,7 +107,7 @@ public class DomiciliosDAO implements IDomicilioDAO {
             comando.setInt(1, configPaginado.getElemPagina());
             comando.setInt(2, configPaginado.getElementosASaltar());
             ResultSet resultado = comando.executeQuery();
-            if(resultado.next()) {
+            while(resultado.next()) {
                 Integer id = resultado.getInt("id");
                 String calle = resultado.getString("calle");
                 Integer numero = resultado.getInt("numero");

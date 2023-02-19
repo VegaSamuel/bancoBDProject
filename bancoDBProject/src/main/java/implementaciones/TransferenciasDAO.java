@@ -110,7 +110,7 @@ public class TransferenciasDAO implements ITransferenciaDAO {
             comando.setInt(1, configPaginado.getElemPagina());
             comando.setInt(2, configPaginado.getElementosASaltar());
             ResultSet resultado = comando.executeQuery();
-            if(resultado.next()) {
+            while(resultado.next()) {
                 Integer idTransfer = resultado.getInt("id_transferencia");
                 Float montoATransferir = resultado.getFloat("monto_a_transferir");
                 Integer cuentaTransfer = resultado.getInt("cuenta_transfer");

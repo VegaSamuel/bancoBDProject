@@ -108,7 +108,7 @@ public class CuentasDAO implements ICuentaDAO {
             comando.setInt(1, configPaginado.getElemPagina());
             comando.setInt(2, configPaginado.getElementosASaltar());
             ResultSet resultado = comando.executeQuery();
-            if(resultado.next()) {
+            while(resultado.next()) {
                 Integer noCuenta = resultado.getInt("no_cuenta");
                 Date fechaApertura = resultado.getDate("fecha_apertura");
                 Float saldo = resultado.getFloat("saldo");
