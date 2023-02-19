@@ -44,7 +44,7 @@
                   <Component id="txtFechaApertura" alignment="0" max="32767" attributes="0"/>
                   <Component id="txtNoCuenta" alignment="0" max="32767" attributes="0"/>
                   <Component id="btnCancelar" min="-2" max="-2" attributes="0"/>
-                  <Component id="cbxIdCliente" alignment="0" max="32767" attributes="0"/>
+                  <Component id="cbxCliente" alignment="0" max="32767" attributes="0"/>
               </Group>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
@@ -86,7 +86,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lblIdCliente" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbxIdCliente" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cbxCliente" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Component id="jPanel1" max="32767" attributes="0"/>
@@ -183,7 +183,7 @@
             <Component class="javax.swing.JTable" name="tblCuenta">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="4" rowCount="4">
+                  <Table columnCount="4" rowCount="0">
                     <Column editable="false" title="No. Cuenta" type="java.lang.Integer"/>
                     <Column editable="false" title="Fecha Apertura" type="java.lang.String"/>
                     <Column editable="false" title="Saldo" type="java.lang.Float"/>
@@ -212,7 +212,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSiguienteActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JComboBox" name="cbxIdCliente">
+    <Component class="javax.swing.JComboBox" name="cbxCliente">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="0"/>

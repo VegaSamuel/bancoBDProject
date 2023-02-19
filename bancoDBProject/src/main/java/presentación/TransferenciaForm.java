@@ -76,10 +76,7 @@ public class TransferenciaForm extends javax.swing.JFrame {
 
         tblTransferencias.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "ID", "Monto a Transferir", "Cuenta Transfiere", "Cuenta Recibe"

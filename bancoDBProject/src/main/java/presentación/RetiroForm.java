@@ -75,10 +75,7 @@ public class RetiroForm extends javax.swing.JFrame {
 
         tblRetiros.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "ID", "Monto Retirado", "Folio", "Cuenta Retiro"

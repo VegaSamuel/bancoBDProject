@@ -22,8 +22,8 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     private final TransferenciaForm transferenciaForm;
     
     public InterfazPrincipal(IClientesDAO clientesDAO, ICuentaDAO cuentaDAO, IDomicilioDAO domicilioDAO, IRetiroDAO retiroDAO, ITransferenciaDAO transferenciaDAO) {
-        this.clienteForm = new ClienteForm(clientesDAO);
-        this.cuentaForm = new CuentaForm(cuentaDAO);
+        this.clienteForm = new ClienteForm(clientesDAO, domicilioDAO);
+        this.cuentaForm = new CuentaForm(cuentaDAO, clientesDAO);
         this.domicilioForm = new DomicilioForm(domicilioDAO);
         this.retiroForm = new RetiroForm(retiroDAO);
         this.transferenciaForm = new TransferenciaForm(transferenciaDAO);

@@ -4,13 +4,17 @@
  */
 package presentación;
 
+import dominio.Cliente;
 import dominio.Cuenta;
 import excepciones.DAOException;
+import interfaces.IClientesDAO;
 import interfaces.ICuentaDAO;
 import java.sql.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import util.ConfigPaginado;
@@ -22,15 +26,25 @@ import util.ConfigPaginado;
 public class CuentaForm extends javax.swing.JFrame {
     private static final Logger LOG = Logger.getLogger(CuentaForm.class.getName());
     private final ICuentaDAO cuentasDAO;
+    private final IClientesDAO clientesDAO;
     private final ConfigPaginado configPaginado;
     
-    public CuentaForm(ICuentaDAO cuentasDAO) {
+    public CuentaForm(ICuentaDAO cuentasDAO, IClientesDAO clientesDAO) {
         this.cuentasDAO = cuentasDAO;
+        this.clientesDAO = clientesDAO;
         this.configPaginado = new ConfigPaginado(0, 3);
         initComponents();
+        this.llenarComboBoxIdClientes();
         this.cargarTablaCuentas();
     }
 
+    private void llenarComboBoxIdClientes() {
+        List<Cliente> listaClientes = this.clientesDAO.consultar(configPaginado);
+        listaClientes.forEach(cliente -> {
+            cbxCliente.addItem(String.valueOf(cliente.getId()));
+        });
+    }
+    
     private void cargarTablaCuentas() {
         try {
             List<Cuenta> listaCuentas = this.cuentasDAO.consultar(configPaginado);
@@ -59,7 +73,7 @@ public class CuentaForm extends javax.swing.JFrame {
     private Cuenta extraerDatosFormulario() {
         Date fechaApertura = Date.valueOf(txtFechaApertura.getText());
         Float saldo = Float.parseFloat(txtSaldo.getText());
-        Integer idCliente = cbxIdCliente.getSelectedIndex();
+        Integer idCliente = (Integer) cbxCliente.getSelectedItem();
         
         return new Cuenta(fechaApertura, saldo, idCliente);
     }
@@ -108,7 +122,7 @@ public class CuentaForm extends javax.swing.JFrame {
         tblCuenta = new javax.swing.JTable();
         btnAnterior = new javax.swing.JButton();
         btnSiguiente = new javax.swing.JButton();
-        cbxIdCliente = new javax.swing.JComboBox<>();
+        cbxCliente = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cuentas");
@@ -139,10 +153,7 @@ public class CuentaForm extends javax.swing.JFrame {
 
         tblCuenta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "No. Cuenta", "Fecha Apertura", "Saldo", "IdCliente"
@@ -216,7 +227,7 @@ public class CuentaForm extends javax.swing.JFrame {
                     .addComponent(txtFechaApertura, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtNoCuenta, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCancelar)
-                    .addComponent(cbxIdCliente, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(cbxCliente, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -249,7 +260,7 @@ public class CuentaForm extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblIdCliente)
-                            .addComponent(cbxIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(cbxCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -285,7 +296,7 @@ public class CuentaForm extends javax.swing.JFrame {
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnSiguiente;
-    private javax.swing.JComboBox<String> cbxIdCliente;
+    private javax.swing.JComboBox<String> cbxCliente;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblFechaApertura;

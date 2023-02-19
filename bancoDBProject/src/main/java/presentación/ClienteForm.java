@@ -2,8 +2,10 @@
 package presentación;
 
 import dominio.Cliente;
+import dominio.Domicilio;
 import excepciones.DAOException;
 import interfaces.IClientesDAO;
+import interfaces.IDomicilioDAO;
 import java.sql.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -19,16 +21,26 @@ import util.ConfigPaginado;
 public class ClienteForm extends javax.swing.JFrame {
     private static final Logger LOG = Logger.getLogger(ClienteForm.class.getName());
     private final IClientesDAO clientesDAO;
+    private final IDomicilioDAO domicilioDAO;
     private final ConfigPaginado configPaginado;
     
     /**
      * Crea un nuevo form ClienteForm
      */
-    public ClienteForm(IClientesDAO clientesDAO) {
+    public ClienteForm(IClientesDAO clientesDAO, IDomicilioDAO domicilioDAO) {
         this.clientesDAO = clientesDAO;
+        this.domicilioDAO = domicilioDAO;
         this.configPaginado = new ConfigPaginado(0, 3);
         initComponents();
         this.cargarTablaClientes();
+        this.llenarComboBoxDomicilio();
+    }
+    
+    private void llenarComboBoxDomicilio() {
+        List<Domicilio> listaDomicilio = this.domicilioDAO.consultar(configPaginado);
+        listaDomicilio.forEach(domicilio -> {
+            cbxDomicilio.addItem(String.valueOf(domicilio.getId()));
+        });
     }
     
     private void cargarTablaClientes() {
@@ -64,7 +76,7 @@ public class ClienteForm extends javax.swing.JFrame {
         String apellidoPaterno = txtApellidoPaterno.getText();
         String apellidoMaterno = txtApellidoMaterno.getText();
         Date fechaNacimiento = Date.valueOf(txtFechaNacimiento.getText());
-        Integer domicilio = cbxDomicilio.getSelectedIndex();
+        Integer domicilio = (Integer) cbxDomicilio.getSelectedItem();
         
         return new Cliente(nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, domicilio);
     }
@@ -138,10 +150,7 @@ public class ClienteForm extends javax.swing.JFrame {
 
         tblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "ID", "Nombres", "Apellido Paterno", "Apellido Materno", "Fecha de Nacimiento", "Edad", "Domicilio"
