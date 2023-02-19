@@ -55,12 +55,11 @@ public class CuentasDAO implements ICuentaDAO {
 
     @Override
     public Cuenta insertar(Cuenta cuenta) throws DAOException {
-        String sql = "insert into cuentas "
-                    + "(fecha_apertura, saldo, id_cliente)";
+        String sql = "insert into cuentas(fecha_apertura, saldo, id_cliente)"
+                   + "values(?, ?, ?)";
         try(
             Connection conexion = MANAGER.crearConexion();
-            PreparedStatement comando = conexion.prepareStatement(sql, 
-                    Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement comando = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         ){
             comando.setDate(1, (Date) cuenta.getFechaApertura());
             comando.setFloat(2, cuenta.getSaldo());

@@ -4,10 +4,9 @@
  */
 package presentación;
 
-import dominio.Cuenta;
+import dominio.Domicilio;
 import excepciones.DAOException;
-import interfaces.ICuentaDAO;
-import java.sql.Date;
+import interfaces.IDomicilioDAO;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,28 +18,28 @@ import util.ConfigPaginado;
  *
  * @author Samuel Vega & Victor Gonzalez
  */
-public class CuentaForm extends javax.swing.JFrame {
-    private static final Logger LOG = Logger.getLogger(CuentaForm.class.getName());
-    private final ICuentaDAO cuentasDAO;
+public class DomicilioForm extends javax.swing.JFrame {
+    private static final Logger LOG = Logger.getLogger(DomicilioForm.class.getName());
+    private final IDomicilioDAO domicilioDAO;
     private final ConfigPaginado configPaginado;
     
-    public CuentaForm(ICuentaDAO cuentasDAO) {
-        this.cuentasDAO = cuentasDAO;
+    public DomicilioForm(IDomicilioDAO domicilioDAO) {
+        this.domicilioDAO = domicilioDAO;
         this.configPaginado = new ConfigPaginado(0, 3);
         initComponents();
-        this.cargarTablaCuentas();
+        this.cargarTablaDomicilio();
     }
 
-    private void cargarTablaCuentas() {
+    private void cargarTablaDomicilio() {
         try {
-            List<Cuenta> listaCuentas = this.cuentasDAO.consultar(configPaginado);
-            DefaultTableModel modeloTabla = (DefaultTableModel) this.tblCuenta.getModel();
-            listaCuentas.forEach(cuenta -> {
+            List<Domicilio> listaDomicilios = this.domicilioDAO.consultar(configPaginado);
+            DefaultTableModel modeloTabla = (DefaultTableModel) tblDomicilio.getModel();
+            listaDomicilios.forEach(domicilio -> {
                 Object[] fila = {
-                    cuenta.getNoCuenta(),
-                    cuenta.getFechaApertura(),
-                    cuenta.getSaldo(),
-                    cuenta.getIdClientes()};
+                    domicilio.getId(),
+                    domicilio.getCalle(),
+                    domicilio.getNumero(),
+                    domicilio.getColonia()};
                 modeloTabla.addRow(fila);
             });
         }catch(DAOException e) {
@@ -48,28 +47,28 @@ public class CuentaForm extends javax.swing.JFrame {
         }
     }
     
-    private void mostrarMensajeCuentaGuardado(Cuenta cuenta) {
-        JOptionPane.showMessageDialog(this, "Se abrió la cuenta " + cuenta.getNoCuenta(), "Información", JOptionPane.INFORMATION_MESSAGE);
+    private void mostrarMensajeDomicilioGuardado(Domicilio domicilio) {
+        JOptionPane.showMessageDialog(this, "Se insertó el domicilio " + domicilio.getId(), "Información", JOptionPane.INFORMATION_MESSAGE);
     }
     
     private void mostrarMensajeErrorGuardado() {
-        JOptionPane.showMessageDialog(this, "No se pudo abrir la cuenta", "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "No se pudo insertar el domicilio", "Error", JOptionPane.ERROR_MESSAGE);
     }
     
-    private Cuenta extraerDatosFormulario() {
-        Date fechaApertura = Date.valueOf(txtFechaApertura.getText());
-        Float saldo = Float.parseFloat(txtSaldo.getText());
-        Integer idCliente = Integer.parseInt(txtIdCliente.getText());
+    private Domicilio extraerDatosFormulario() {
+        String calle = txtCalle.getText();
+        Integer numero = Integer.parseInt(txtNumero.getText());
+        String colonia = txtColonia.getText();
         
-        return new Cuenta(fechaApertura, saldo, idCliente);
+        return new Domicilio(calle, numero, colonia);
     }
     
     private void guardar() {
         try{
-            Cuenta cuenta = this.extraerDatosFormulario();
-            Cuenta clienteGuardado = this.cuentasDAO.insertar(cuenta);
-            cargarTablaCuentas();
-            this.mostrarMensajeCuentaGuardado(clienteGuardado);
+            Domicilio domicilio = this.extraerDatosFormulario();
+            Domicilio domicilioGuardado = this.domicilioDAO.insertar(domicilio);
+            cargarTablaDomicilio();
+            this.mostrarMensajeDomicilioGuardado(domicilioGuardado);
         }catch(DAOException e){
             this.mostrarMensajeErrorGuardado();
         }
@@ -77,12 +76,12 @@ public class CuentaForm extends javax.swing.JFrame {
     
     private void siguientePagina() {
         configPaginado.avanzarPagina();
-        cargarTablaCuentas();
+        cargarTablaDomicilio();
     }
     
     private void paginaAnterior() {
         configPaginado.retrocederPagina();
-        cargarTablaCuentas();
+        cargarTablaDomicilio();
     }
     
     /**
@@ -94,36 +93,33 @@ public class CuentaForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblNoCuenta = new javax.swing.JLabel();
-        lblFechaApertura = new javax.swing.JLabel();
-        lblSaldo = new javax.swing.JLabel();
-        lblIdCliente = new javax.swing.JLabel();
-        txtNoCuenta = new javax.swing.JTextField();
-        txtFechaApertura = new javax.swing.JTextField();
-        txtSaldo = new javax.swing.JTextField();
-        txtIdCliente = new javax.swing.JTextField();
+        lblID = new javax.swing.JLabel();
+        lblCalle = new javax.swing.JLabel();
+        lblNumero = new javax.swing.JLabel();
+        lblColonia = new javax.swing.JLabel();
+        txtID = new javax.swing.JTextField();
+        txtCalle = new javax.swing.JTextField();
+        txtNumero = new javax.swing.JTextField();
+        txtColonia = new javax.swing.JTextField();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblCuenta = new javax.swing.JTable();
+        tblDomicilio = new javax.swing.JTable();
         btnAnterior = new javax.swing.JButton();
         btnSiguiente = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Cuentas");
 
-        lblNoCuenta.setText("No. Cuenta");
+        lblID.setText("ID");
 
-        lblFechaApertura.setText("Fecha Apertura");
+        lblCalle.setText("Calle");
 
-        lblSaldo.setText("Saldo");
+        lblNumero.setText("Numero");
 
-        lblIdCliente.setText("IdCliente");
+        lblColonia.setText("Colonia");
 
-        txtNoCuenta.setEditable(false);
-
-        txtIdCliente.setEditable(false);
+        txtID.setEditable(false);
 
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -139,7 +135,7 @@ public class CuentaForm extends javax.swing.JFrame {
             }
         });
 
-        tblCuenta.setModel(new javax.swing.table.DefaultTableModel(
+        tblDomicilio.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -147,25 +143,18 @@ public class CuentaForm extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "No. Cuenta", "Fecha Apertura", "Saldo", "IdCliente"
+                "ID", "Calle", "Numero", "Colonia"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Float.class, java.lang.Integer.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
         });
-        jScrollPane1.setViewportView(tblCuenta);
+        jScrollPane1.setViewportView(tblDomicilio);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -179,7 +168,7 @@ public class CuentaForm extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -203,77 +192,66 @@ public class CuentaForm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblFechaApertura)
-                    .addComponent(lblNoCuenta)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnGuardar)
-                            .addComponent(lblIdCliente))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(txtIdCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
-                        .addComponent(txtSaldo)
-                        .addComponent(txtFechaApertura)
-                        .addComponent(txtNoCuenta))
-                    .addComponent(btnCancelar))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblNumero, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblCalle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblColonia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtNumero, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
+                            .addComponent(txtCalle)
+                            .addComponent(txtID)
+                            .addComponent(txtColonia))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(79, 79, 79)
+                        .addComponent(btnGuardar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnCancelar)
+                        .addGap(85, 85, 85)
                         .addComponent(btnAnterior)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSiguiente)
-                        .addGap(76, 76, 76))))
+                        .addGap(72, 72, 72)
+                        .addComponent(btnSiguiente)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblNoCuenta)
-                            .addComponent(txtNoCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblID)
+                            .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblFechaApertura)
-                            .addComponent(txtFechaApertura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(6, 6, 6)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblSaldo)
-                            .addComponent(txtSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblCalle)
+                            .addComponent(txtCalle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblIdCliente)
-                            .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(lblNumero)
+                            .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblColonia)
+                            .addComponent(txtColonia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnGuardar)
-                        .addComponent(btnCancelar)
-                        .addComponent(btnAnterior))
-                    .addComponent(btnSiguiente))
+                        .addComponent(btnCancelar))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnAnterior)
+                        .addComponent(btnSiguiente)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        System.exit(0);
-    }//GEN-LAST:event_btnCancelarActionPerformed
-
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        guardar();
-    }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
         paginaAnterior();
@@ -283,6 +261,14 @@ public class CuentaForm extends javax.swing.JFrame {
         siguientePagina();
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        guardar();
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnCancelar;
@@ -290,14 +276,14 @@ public class CuentaForm extends javax.swing.JFrame {
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblFechaApertura;
-    private javax.swing.JLabel lblIdCliente;
-    private javax.swing.JLabel lblNoCuenta;
-    private javax.swing.JLabel lblSaldo;
-    private javax.swing.JTable tblCuenta;
-    private javax.swing.JTextField txtFechaApertura;
-    private javax.swing.JTextField txtIdCliente;
-    private javax.swing.JTextField txtNoCuenta;
-    private javax.swing.JTextField txtSaldo;
+    private javax.swing.JLabel lblCalle;
+    private javax.swing.JLabel lblColonia;
+    private javax.swing.JLabel lblID;
+    private javax.swing.JLabel lblNumero;
+    private javax.swing.JTable tblDomicilio;
+    private javax.swing.JTextField txtCalle;
+    private javax.swing.JTextField txtColonia;
+    private javax.swing.JTextField txtID;
+    private javax.swing.JTextField txtNumero;
     // End of variables declaration//GEN-END:variables
 }
