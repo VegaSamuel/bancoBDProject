@@ -45,11 +45,12 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         saveMenuItem = new javax.swing.JMenuItem();
         saveAsMenuItem = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
-        editMenu = new javax.swing.JMenu();
-        cutMenuItem = new javax.swing.JMenuItem();
-        copyMenuItem = new javax.swing.JMenuItem();
-        pasteMenuItem = new javax.swing.JMenuItem();
-        deleteMenuItem = new javax.swing.JMenuItem();
+        ListasMenu = new javax.swing.JMenu();
+        MenuClientes = new javax.swing.JMenuItem();
+        MenuCuenta = new javax.swing.JMenuItem();
+        MenuDomicilio = new javax.swing.JMenuItem();
+        MenuRetiro = new javax.swing.JMenuItem();
+        Transferencia = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         contentsMenuItem = new javax.swing.JMenuItem();
         aboutMenuItem = new javax.swing.JMenuItem();
@@ -83,31 +84,54 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
         menuBar.add(fileMenu);
 
-        editMenu.setMnemonic('e');
-        editMenu.setText("Listas");
+        ListasMenu.setMnemonic('e');
+        ListasMenu.setText("Listas");
 
-        cutMenuItem.setMnemonic('t');
-        cutMenuItem.setText("Clientes");
-        cutMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        MenuClientes.setMnemonic('t');
+        MenuClientes.setText("Clientes");
+        MenuClientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cutMenuItemActionPerformed(evt);
+                MenuClientesActionPerformed(evt);
             }
         });
-        editMenu.add(cutMenuItem);
+        ListasMenu.add(MenuClientes);
 
-        copyMenuItem.setMnemonic('y');
-        copyMenuItem.setText("Copy");
-        editMenu.add(copyMenuItem);
+        MenuCuenta.setMnemonic('y');
+        MenuCuenta.setText("Cuentas");
+        MenuCuenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuCuentaActionPerformed(evt);
+            }
+        });
+        ListasMenu.add(MenuCuenta);
 
-        pasteMenuItem.setMnemonic('p');
-        pasteMenuItem.setText("Paste");
-        editMenu.add(pasteMenuItem);
+        MenuDomicilio.setMnemonic('p');
+        MenuDomicilio.setText("Domicilio");
+        MenuDomicilio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuDomicilioActionPerformed(evt);
+            }
+        });
+        ListasMenu.add(MenuDomicilio);
 
-        deleteMenuItem.setMnemonic('d');
-        deleteMenuItem.setText("Delete");
-        editMenu.add(deleteMenuItem);
+        MenuRetiro.setMnemonic('d');
+        MenuRetiro.setText("Retiro");
+        MenuRetiro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuRetiroActionPerformed(evt);
+            }
+        });
+        ListasMenu.add(MenuRetiro);
 
-        menuBar.add(editMenu);
+        Transferencia.setText("Transferencia");
+        Transferencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TransferenciaActionPerformed(evt);
+            }
+        });
+        ListasMenu.add(Transferencia);
+
+        menuBar.add(ListasMenu);
 
         helpMenu.setMnemonic('h');
         helpMenu.setText("Usuario");
@@ -151,23 +175,40 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_contentsMenuItemActionPerformed
 
-    private void cutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cutMenuItemActionPerformed
+    private void MenuClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuClientesActionPerformed
         clienteForm.setVisible(true);
-    }//GEN-LAST:event_cutMenuItemActionPerformed
+    }//GEN-LAST:event_MenuClientesActionPerformed
+
+    private void MenuCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuCuentaActionPerformed
+        cuentaForm.setVisible(true);
+    }//GEN-LAST:event_MenuCuentaActionPerformed
+
+    private void MenuDomicilioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuDomicilioActionPerformed
+        domicilioForm.setVisible(true);
+    }//GEN-LAST:event_MenuDomicilioActionPerformed
+
+    private void MenuRetiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuRetiroActionPerformed
+        retiroForm.setVisible(true);
+    }//GEN-LAST:event_MenuRetiroActionPerformed
+
+    private void TransferenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TransferenciaActionPerformed
+        transferenciaForm.setVisible(true);
+    }//GEN-LAST:event_TransferenciaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu ListasMenu;
+    private javax.swing.JMenuItem MenuClientes;
+    private javax.swing.JMenuItem MenuCuenta;
+    private javax.swing.JMenuItem MenuDomicilio;
+    private javax.swing.JMenuItem MenuRetiro;
+    private javax.swing.JMenuItem Transferencia;
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JMenuItem contentsMenuItem;
-    private javax.swing.JMenuItem copyMenuItem;
-    private javax.swing.JMenuItem cutMenuItem;
-    private javax.swing.JMenuItem deleteMenuItem;
-    private javax.swing.JMenu editMenu;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu helpMenu;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem openMenuItem;
-    private javax.swing.JMenuItem pasteMenuItem;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
     // End of variables declaration//GEN-END:variables
