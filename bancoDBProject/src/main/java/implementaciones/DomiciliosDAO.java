@@ -67,7 +67,7 @@ public class DomiciliosDAO implements IDomicilioDAO {
             ResultSet registroLlaves = comando.getGeneratedKeys();
             if (registroLlaves.next()){
                 Integer llave = registroLlaves.getInt(Statement.RETURN_GENERATED_KEYS);
-                domicilio.setId(llave);;
+                domicilio.setId(llave);
                 return domicilio;
             }
             LOG.log(Level.WARNING, "Se insertó el domicilio sin mostrar la ID");
@@ -97,7 +97,7 @@ public class DomiciliosDAO implements IDomicilioDAO {
 
     @Override
     public List<Domicilio> consultar(ConfigPaginado configPaginado) throws DAOException {
-        String sql = "select * from domicilio"
+        String sql = "select * from domicilio "
                    + "limit ? offset ?";
         List<Domicilio> listaDomicilio = new LinkedList<>();
         try(
@@ -118,7 +118,7 @@ public class DomiciliosDAO implements IDomicilioDAO {
             return listaDomicilio;
         }catch(SQLException ex) {
             LOG.log(Level.SEVERE, "No se pudo consultar la lista de domicilios {0}", ex.getMessage());
-            throw new DAOException("No se pudo consultar la lista de domicilios" + ex.getMessage());
+            throw new DAOException("No se pudo consultar la lista de domicilios " + ex.getMessage());
         }
     } 
 }

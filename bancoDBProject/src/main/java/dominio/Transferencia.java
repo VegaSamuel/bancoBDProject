@@ -12,12 +12,12 @@ package dominio;
 public class Transferencia {
     private Integer id_transferencia;
     private Float monto_a_transferir;
-    private Cuenta cuenta_transfer, cuenta_recibo;
+    private Integer cuenta_transfer, cuenta_recibo;
 
     public Transferencia() {
     }
 
-    public Transferencia(Integer id_transferencia, Float monto_a_transferir, Cuenta cuenta_transfer, Cuenta cuenta_recibo) {
+    public Transferencia(Integer id_transferencia, Float monto_a_transferir, Integer cuenta_transfer, Integer cuenta_recibo) {
         this.id_transferencia = id_transferencia;
         this.monto_a_transferir = monto_a_transferir;
         this.cuenta_transfer = cuenta_transfer;
@@ -40,19 +40,19 @@ public class Transferencia {
         this.monto_a_transferir = monto_a_transferir;
     }
 
-    public Cuenta getCuenta_transfer() {
+    public Integer getCuenta_transfer() {
         return cuenta_transfer;
     }
 
-    public void setCuenta_transfer(Cuenta cuenta_transfer) {
+    public void setCuenta_transfer(Integer cuenta_transfer) {
         this.cuenta_transfer = cuenta_transfer;
     }
 
-    public Cuenta getCuenta_recibo() {
+    public Integer getCuenta_recibo() {
         return cuenta_recibo;
     }
 
-    public void setCuenta_recibo(Cuenta cuenta_recibo) {
+    public void setCuenta_recibo(Integer cuenta_recibo) {
         this.cuenta_recibo = cuenta_recibo;
     }
     

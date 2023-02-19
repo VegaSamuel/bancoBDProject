@@ -34,7 +34,7 @@ public class CuentasDAO implements ICuentaDAO {
         try(
             Connection conexion = MANAGER.crearConexion();
             PreparedStatement comando = conexion.prepareStatement(
-                "select * from cuentas where noCuenta = ?");  
+                "select * from cuentas where no_cuenta = ?");  
         ){
             comando.setInt(1, noCuenta);
             ResultSet resultado = comando.executeQuery();
@@ -69,7 +69,7 @@ public class CuentasDAO implements ICuentaDAO {
             ResultSet registroLlaves = comando.getGeneratedKeys();
             if (registroLlaves.next()){
                 Integer llave = registroLlaves.getInt(Statement.RETURN_GENERATED_KEYS);
-                cuenta.setNoCuenta(llave);;
+                cuenta.setNoCuenta(llave);
                 return cuenta;
             }
             LOG.log(Level.WARNING, "Se insertó la cuenta sin mostrar la ID");
@@ -99,7 +99,7 @@ public class CuentasDAO implements ICuentaDAO {
 
     @Override
     public List<Cuenta> consultar(ConfigPaginado configPaginado) throws DAOException {
-        String sql = "select * from cuentas"
+        String sql = "select * from cuentas "
                    + "limit ? offset ?";
         List<Cuenta> listaCuenta = new LinkedList<>();
         try(
@@ -120,7 +120,7 @@ public class CuentasDAO implements ICuentaDAO {
             return listaCuenta;
         }catch(SQLException ex) {
             LOG.log(Level.SEVERE, "No se pudo consultar la lista de cuentas {0}", ex.getMessage());
-            throw new DAOException("No se pudo consultar la lista de cuentas" + ex.getMessage());
+            throw new DAOException("No se pudo consultar la lista de cuentas " + ex.getMessage());
         }
     } 
 }
