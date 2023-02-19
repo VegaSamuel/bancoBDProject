@@ -4,16 +4,29 @@
  */
 package presentación;
 
+import interfaces.IClientesDAO;
+import interfaces.ICuentaDAO;
+import interfaces.IDomicilioDAO;
+import interfaces.IRetiroDAO;
+import interfaces.ITransferenciaDAO;
+
 /**
  *
  * @author Samuel Vega & Victor Gonzales
  */
 public class InterfazPrincipal extends javax.swing.JFrame {
-
-    /**
-     * Creates new form InterfazPrincipal
-     */
-    public InterfazPrincipal() {
+    private final ClienteForm clienteForm;
+    private final CuentaForm cuentaForm;
+    private final DomicilioForm domicilioForm;
+    private final RetiroForm retiroForm;
+    private final TransferenciaForm transferenciaForm;
+    
+    public InterfazPrincipal(IClientesDAO clientesDAO, ICuentaDAO cuentaDAO, IDomicilioDAO domicilioDAO, IRetiroDAO retiroDAO, ITransferenciaDAO transferenciaDAO) {
+        this.clienteForm = new ClienteForm(clientesDAO);
+        this.cuentaForm = new CuentaForm(cuentaDAO);
+        this.domicilioForm = new DomicilioForm(domicilioDAO);
+        this.retiroForm = new RetiroForm(retiroDAO);
+        this.transferenciaForm = new TransferenciaForm(transferenciaDAO);
         initComponents();
     }
 
@@ -44,7 +57,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         fileMenu.setMnemonic('f');
-        fileMenu.setText("File");
+        fileMenu.setText("Archivo");
 
         openMenuItem.setMnemonic('o');
         openMenuItem.setText("Open");
@@ -60,7 +73,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         fileMenu.add(saveAsMenuItem);
 
         exitMenuItem.setMnemonic('x');
-        exitMenuItem.setText("Exit");
+        exitMenuItem.setText("Salir");
         exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 exitMenuItemActionPerformed(evt);
@@ -71,10 +84,15 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         menuBar.add(fileMenu);
 
         editMenu.setMnemonic('e');
-        editMenu.setText("Edit");
+        editMenu.setText("Listas");
 
         cutMenuItem.setMnemonic('t');
-        cutMenuItem.setText("Cut");
+        cutMenuItem.setText("Clientes");
+        cutMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cutMenuItemActionPerformed(evt);
+            }
+        });
         editMenu.add(cutMenuItem);
 
         copyMenuItem.setMnemonic('y');
@@ -92,14 +110,19 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         menuBar.add(editMenu);
 
         helpMenu.setMnemonic('h');
-        helpMenu.setText("Help");
+        helpMenu.setText("Usuario");
 
         contentsMenuItem.setMnemonic('c');
-        contentsMenuItem.setText("Contents");
+        contentsMenuItem.setText("Iniciar Sesión");
+        contentsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contentsMenuItemActionPerformed(evt);
+            }
+        });
         helpMenu.add(contentsMenuItem);
 
         aboutMenuItem.setMnemonic('a');
-        aboutMenuItem.setText("About");
+        aboutMenuItem.setText("Cerrar Sesión");
         helpMenu.add(aboutMenuItem);
 
         menuBar.add(helpMenu);
@@ -123,6 +146,14 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
         System.exit(0);
     }//GEN-LAST:event_exitMenuItemActionPerformed
+
+    private void contentsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contentsMenuItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_contentsMenuItemActionPerformed
+
+    private void cutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cutMenuItemActionPerformed
+        clienteForm.setVisible(true);
+    }//GEN-LAST:event_cutMenuItemActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
