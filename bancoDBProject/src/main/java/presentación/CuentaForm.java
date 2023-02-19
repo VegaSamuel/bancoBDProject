@@ -4,19 +4,86 @@
  */
 package presentación;
 
+import dominio.Cuenta;
+import excepciones.DAOException;
+import interfaces.ICuentaDAO;
+import java.sql.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import util.ConfigPaginado;
+
 /**
  *
- * @author atrap
+ * @author Samuel Vega & Victor Gonzalez
  */
 public class CuentaForm extends javax.swing.JFrame {
-
-    /**
-     * Creates new form CuentaForm
-     */
-    public CuentaForm() {
+    private static final Logger LOG = Logger.getLogger(CuentaForm.class.getName());
+    private final ICuentaDAO cuentasDAO;
+    private final ConfigPaginado configPaginado;
+    
+    public CuentaForm(ICuentaDAO cuentasDAO) {
+        this.cuentasDAO = cuentasDAO;
+        this.configPaginado = new ConfigPaginado(0, 3);
         initComponents();
+        this.cargarTablaCuentas();
     }
 
+    private void cargarTablaCuentas() {
+        try {
+            List<Cuenta> listaCuentas = this.cuentasDAO.consultar(configPaginado);
+            DefaultTableModel modeloTabla = (DefaultTableModel) this.tblCuenta.getModel();
+            listaCuentas.forEach(cuenta -> {
+                Object[] fila = {
+                    cuenta.getNoCuenta(),
+                    cuenta.getFechaApertura(),
+                    cuenta.getSaldo(),
+                    cuenta.getIdClientes()};
+                modeloTabla.addRow(fila);
+            });
+        }catch(DAOException e) {
+            LOG.log(Level.SEVERE, "No se pudo crear la lista ",e.getMessage());
+        }
+    }
+    
+    private void mostrarMensajeClienteGuardado(Cuenta cuenta) {
+        JOptionPane.showMessageDialog(this, "Se abrió la cuenta " + cuenta.getNoCuenta(), "Información", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    private void mostrarMensajeErrorGuardado() {
+        JOptionPane.showMessageDialog(this, "No se pudo abrir la cuenta", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    
+    private Cuenta extraerDatosFormulario() {
+        Date fechaApertura = Date.valueOf(txtFechaApertura.getText());
+        Float saldo = Float.parseFloat(txtSaldo.getText());
+        
+        return new Cuenta(fechaApertura, saldo);
+    }
+    
+    private void guardar() {
+        try{
+            Cuenta cuenta = this.extraerDatosFormulario();
+            Cuenta clienteGuardado = this.cuentasDAO.insertar(cuenta);
+            cargarTablaCuentas();
+            this.mostrarMensajeClienteGuardado(clienteGuardado);
+        }catch(DAOException e){
+            this.mostrarMensajeErrorGuardado();
+        }
+    }
+    
+    private void siguientePagina() {
+        configPaginado.avanzarPagina();
+        cargarTablaCuentas();
+    }
+    
+    private void paginaAnterior() {
+        configPaginado.retrocederPagina();
+        cargarTablaCuentas();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -58,6 +125,11 @@ public class CuentaForm extends javax.swing.JFrame {
         txtIdCliente.setEditable(false);
 
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -111,8 +183,18 @@ public class CuentaForm extends javax.swing.JFrame {
         );
 
         btnAnterior.setText("Anterior");
+        btnAnterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnteriorActionPerformed(evt);
+            }
+        });
 
         btnSiguiente.setText("Siguiente");
+        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiguienteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -187,6 +269,18 @@ public class CuentaForm extends javax.swing.JFrame {
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         System.exit(0);
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        guardar();
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
+        paginaAnterior();
+    }//GEN-LAST:event_btnAnteriorActionPerformed
+
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+        siguientePagina();
+    }//GEN-LAST:event_btnSiguienteActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;

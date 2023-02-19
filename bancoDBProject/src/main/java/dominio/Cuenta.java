@@ -34,6 +34,28 @@ public class Cuenta {
         this.idClientes = idClientes;
     }
     
+    /**
+     * Constructor que inicializa los atributos de la clase, excepto el numero de cuenta
+     * @param fechaApertura Fecha de apertura
+     * @param saldo Saldo en la cuenta
+     * @param idClientes Cliente al que pertenece la cuenta
+     */
+    public Cuenta(Date fechaApertura, Float saldo, Integer idClientes) {
+        this.fechaApertura = fechaApertura;
+        this.saldo = saldo;
+        this.idClientes = idClientes;
+    }
+    
+    /**
+     * Constructor que inicializa los atributos de la clase, excepto el numero de cuenta y el id del cliente
+     * @param fechaApertura Fecha de apertura
+     * @param saldo Saldo en la cuenta
+     */
+    public Cuenta(Date fechaApertura, Float saldo) {
+        this.fechaApertura = fechaApertura;
+        this.saldo = saldo;
+    }
+    
     public Integer getNoCuenta() {
         return noCuenta;
     }

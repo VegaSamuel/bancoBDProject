@@ -60,14 +60,13 @@ public class ClienteForm extends javax.swing.JFrame {
     }
     
     private Cliente extraerDatosFormulario() {
-        Cliente cliente = null;
+        String nombre = txtNombres.getText();
+        String apellidoPaterno = txtApellidoPaterno.getText();
+        String apellidoMaterno = txtApellidoMaterno.getText();
+        Date fechaNacimiento = Date.valueOf(txtFechaNacimiento.getText());
+        Integer domicilio = cbxDomicilio.getSelectedIndex();
         
-        cliente.setNombre(txtNombres.getText());
-        cliente.setApellidoPaterno(txtApellidoPaterno.getText());
-        cliente.setApellidoMaterno(txtApellidoMaterno.getText());
-        cliente.setIdDomicilio(cbxDomicilio.getSelectedIndex());
-        
-        return cliente;
+        return new Cliente(nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, domicilio);
     }
 
     private void guardar() {
