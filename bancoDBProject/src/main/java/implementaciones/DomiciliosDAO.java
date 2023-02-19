@@ -53,8 +53,8 @@ public class DomiciliosDAO implements IDomicilioDAO {
 
     @Override
     public Domicilio insertar(Domicilio domicilio) throws DAOException {
-        String sql = "insert into domicilio "
-                    + "(calle, numero, colonia)";
+        String sql = "insert into domicilios (calle, numero, colonia)"
+                   + "values (?, ?, ?)";
         try(
             Connection conexion = MANAGER.crearConexion();
             PreparedStatement comando = conexion.prepareStatement(sql, 
@@ -81,7 +81,7 @@ public class DomiciliosDAO implements IDomicilioDAO {
     @Override
     public Domicilio eliminar(Integer id) throws DAOException {
         Domicilio domicilio = this.consultar(id);
-        String codigoBD = "delete from domicilio where id = ?";
+        String codigoBD = "delete * from domicilios where id = ?";
         try(
             Connection conexion = MANAGER.crearConexion();
             PreparedStatement comando = conexion.prepareStatement(codigoBD);
@@ -97,7 +97,7 @@ public class DomiciliosDAO implements IDomicilioDAO {
 
     @Override
     public List<Domicilio> consultar(ConfigPaginado configPaginado) throws DAOException {
-        String sql = "select * from domicilio "
+        String sql = "select * from domicilios "
                    + "limit ? offset ?";
         List<Domicilio> listaDomicilio = new LinkedList<>();
         try(
