@@ -132,16 +132,4 @@ public class Cliente {
     public void setEdad(Integer edad) {
         this.edad = edad;
     }
-    
-    public void crearCuenta(){
-        
-    }
-    
-    public void iniciarSesión(){
-        
-    }
-    
-    public void realizarRetiro(){
-        
-    }
 }

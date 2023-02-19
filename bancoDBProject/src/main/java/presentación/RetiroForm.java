@@ -71,7 +71,7 @@ public class RetiroForm extends javax.swing.JFrame {
         btnAnterior = new javax.swing.JButton();
         btnRegresar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         tblRetiros.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

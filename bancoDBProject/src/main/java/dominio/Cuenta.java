@@ -55,6 +55,13 @@ public class Cuenta {
         this.fechaApertura = fechaApertura;
         this.saldo = saldo;
     }
+    /**
+     * Constructor que solo inicializa el id del cliente
+     * @param idClientes Cliente al que pertenece la cuenta
+     */
+    public Cuenta(Integer idClientes) {
+        this.idClientes = idClientes;
+    }
     
     public Integer getNoCuenta() {
         return noCuenta;
