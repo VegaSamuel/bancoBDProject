@@ -17,7 +17,7 @@ import util.ConfigPaginado;
 
 /**
  *
- * @author Samuel Vega & Victor Gonzales
+ * @author Samuel Vega & Victor Gonzalez
  */
 public class CuentaForm extends javax.swing.JFrame {
     private static final Logger LOG = Logger.getLogger(CuentaForm.class.getName());

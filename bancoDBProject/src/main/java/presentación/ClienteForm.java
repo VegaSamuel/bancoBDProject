@@ -14,7 +14,7 @@ import util.ConfigPaginado;
 
 /**
  * Esta clase muestra la interfaz gráfica para facilitar el uso del programa.
- * @author Samuel Vega & Victor Gonzales
+ * @author Samuel Vega & Victor Gonzalez
  */
 public class ClienteForm extends javax.swing.JFrame {
     private static final Logger LOG = Logger.getLogger(ClienteForm.class.getName());

@@ -14,7 +14,7 @@ import javax.swing.table.DefaultTableModel;
 import util.ConfigPaginado;
 
 /**
- * @author Samuel Vega & Victor Gonzales
+ * @author Samuel Vega & Victor Gonzalez
  */
 public class RetiroForm extends javax.swing.JFrame {
     private static final Logger LOG = Logger.getLogger(RetiroForm.class.getName());
