@@ -58,12 +58,11 @@ public class RetirosDAO implements IRetiroDAO {
 
     @Override
     public Retiro insertar(Retiro retiro) throws DAOException {
-        String sql = "insert into retiros "
-                    + "(monto_retirado, folio, contraseña, cuenta_retiro)";
+        String sql = "insert into retiros(monto_retirado, folio, contraseña, cuenta_retiro)"
+                   + "values (?, ?, ?, ?)";
         try(
             Connection conexion = MANAGER.crearConexion();
-            PreparedStatement comando = conexion.prepareStatement(sql, 
-                    Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement comando = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         ){
             comando.setFloat(1, retiro.getMonto_retirado());
             comando.setInt(2, retiro.getFolio());

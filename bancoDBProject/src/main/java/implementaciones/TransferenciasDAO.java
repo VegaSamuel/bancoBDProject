@@ -57,12 +57,11 @@ public class TransferenciasDAO implements ITransferenciaDAO {
 
     @Override
     public Transferencia insertar(Transferencia transfer) throws DAOException {
-        String sql = "insert into transferencias "
-                    + "(monto_a_transferir, cuenta_transfer, cuenta_recibo)";
+        String sql = "insert into transferencias(monto_a_transferir, cuenta_transfer, cuenta_recibo)"
+                   + "values (?, ?, ?)";
         try(
             Connection conexion = MANAGER.crearConexion();
-            PreparedStatement comando = conexion.prepareStatement(sql, 
-                    Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement comando = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         ){
             comando.setFloat(1, transfer.getMonto_a_transferir());
             comando.setInt(2, transfer.getCuenta_transfer());
