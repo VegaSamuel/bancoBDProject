@@ -25,7 +25,7 @@ public class DomicilioForm extends javax.swing.JFrame {
     
     public DomicilioForm(IDomicilioDAO domicilioDAO) {
         this.domicilioDAO = domicilioDAO;
-        this.configPaginado = new ConfigPaginado(0, 5);
+        this.configPaginado = new ConfigPaginado(0, 7);
         initComponents();
         this.cargarTablaDomicilio();
     }

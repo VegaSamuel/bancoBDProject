@@ -25,49 +25,48 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblFechaNacimiento" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="lblNombres" max="32767" attributes="0"/>
-                              <Component id="lblID" max="32767" attributes="0"/>
-                              <Component id="lblApellidoPaterno" max="32767" attributes="0"/>
-                              <Component id="lblApellidoMaterno" alignment="0" max="32767" attributes="0"/>
-                          </Group>
-                          <Component id="lblDomicilio" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                  <Component id="lblFechaNacimiento" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="lblNombres" max="32767" attributes="0"/>
+                      <Component id="lblID" max="32767" attributes="0"/>
+                      <Component id="lblApellidoPaterno" max="32767" attributes="0"/>
+                      <Component id="lblApellidoMaterno" alignment="0" max="32767" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                      <Component id="btnGuardar" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="lblDomicilio" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnGuardar" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="btnCancelar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="133" max="-2" attributes="0"/>
-                      <Component id="btnAnterior" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="98" max="-2" attributes="0"/>
-                      <Component id="btnSiguiente" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="txtID" alignment="0" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
                           <Component id="txtNombres" alignment="0" max="32767" attributes="0"/>
                           <Component id="txtApellidoPaterno" alignment="0" max="32767" attributes="0"/>
                           <Component id="txtApellidoMaterno" alignment="0" max="32767" attributes="0"/>
-                          <Component id="txtFechaNacimiento" alignment="0" max="32767" attributes="0"/>
-                          <Component id="cbxDomicilio" pref="90" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="txtFechaNacimientoAno" min="-2" pref="57" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="txtFechaNacimientoMes" min="-2" pref="33" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="txtFechaNacimientoDia" min="-2" pref="33" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="txtID" max="32767" attributes="0"/>
+                          <Component id="cbxDomicilio" alignment="0" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="32767" attributes="0"/>
                       <Component id="jPanel1" max="32767" attributes="0"/>
                   </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                      <Component id="btnCancelar" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="btnAnterior" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="98" max="-2" attributes="0"/>
+                      <Component id="btnSiguiente" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -99,7 +98,9 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lblFechaNacimiento" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtFechaNacimiento" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtFechaNacimientoAno" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtFechaNacimientoMes" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtFechaNacimientoDia" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -111,11 +112,13 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="btnGuardar" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="btnCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                       <Component id="btnAnterior" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnSiguiente" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="btnGuardar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="17" max="32767" attributes="0"/>
@@ -154,7 +157,7 @@
         <Property name="text" type="java.lang.String" value="Domicilio"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtFechaNacimiento">
+    <Component class="javax.swing.JTextField" name="txtFechaNacimientoAno">
     </Component>
     <Component class="javax.swing.JTextField" name="txtID">
       <Properties>
@@ -256,6 +259,10 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSiguienteActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtFechaNacimientoMes">
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtFechaNacimientoDia">
     </Component>
   </SubComponents>
 </Form>

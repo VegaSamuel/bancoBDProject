@@ -24,7 +24,7 @@ public class TransferenciaForm extends javax.swing.JFrame {
     
     public TransferenciaForm(ITransferenciaDAO transferenciaDAO) {
         this.transferenciaDAO = transferenciaDAO;
-        this.configPaginado = new ConfigPaginado(0, 3);
+        this.configPaginado = new ConfigPaginado(0, 7);
         initComponents();
         this.cargarTablaTransferencia();
     }

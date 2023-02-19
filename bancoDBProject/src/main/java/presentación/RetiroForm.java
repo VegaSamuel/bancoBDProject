@@ -23,7 +23,7 @@ public class RetiroForm extends javax.swing.JFrame {
     
     public RetiroForm(IRetiroDAO retiroDAO) {
         this.retiroDAO = retiroDAO;
-        this.configPaginado = new ConfigPaginado(0, 3);
+        this.configPaginado = new ConfigPaginado(0, 7);
         initComponents();
         this.cargarTablaRetiros();
     }

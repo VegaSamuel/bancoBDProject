@@ -24,13 +24,10 @@ public class ClienteForm extends javax.swing.JFrame {
     private final IDomicilioDAO domicilioDAO;
     private final ConfigPaginado configPaginado;
     
-    /**
-     * Crea un nuevo form ClienteForm
-     */
     public ClienteForm(IClientesDAO clientesDAO, IDomicilioDAO domicilioDAO) {
         this.clientesDAO = clientesDAO;
         this.domicilioDAO = domicilioDAO;
-        this.configPaginado = new ConfigPaginado(0, 3);
+        this.configPaginado = new ConfigPaginado(0, 7);
         initComponents();
         this.cargarTablaClientes();
         this.llenarComboBoxDomicilio();
@@ -75,8 +72,8 @@ public class ClienteForm extends javax.swing.JFrame {
         String nombre = txtNombres.getText();
         String apellidoPaterno = txtApellidoPaterno.getText();
         String apellidoMaterno = txtApellidoMaterno.getText();
-        Date fechaNacimiento = Date.valueOf(txtFechaNacimiento.getText());
-        Integer domicilio = (Integer) cbxDomicilio.getSelectedItem();
+        Date fechaNacimiento = Date.valueOf(txtFechaNacimientoAno.getText() + "-" + txtFechaNacimientoMes.getText() + "-" + txtFechaNacimientoDia.getText());
+        Integer domicilio = Integer.parseInt((String) cbxDomicilio.getSelectedItem());
         
         return new Cliente(nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, domicilio);
     }
@@ -117,7 +114,7 @@ public class ClienteForm extends javax.swing.JFrame {
         lblApellidoMaterno = new javax.swing.JLabel();
         lblFechaNacimiento = new javax.swing.JLabel();
         lblDomicilio = new javax.swing.JLabel();
-        txtFechaNacimiento = new javax.swing.JTextField();
+        txtFechaNacimientoAno = new javax.swing.JTextField();
         txtID = new javax.swing.JTextField();
         txtApellidoMaterno = new javax.swing.JTextField();
         txtApellidoPaterno = new javax.swing.JTextField();
@@ -130,6 +127,8 @@ public class ClienteForm extends javax.swing.JFrame {
         btnCancelar = new javax.swing.JButton();
         btnAnterior = new javax.swing.JButton();
         btnSiguiente = new javax.swing.JButton();
+        txtFechaNacimientoMes = new javax.swing.JTextField();
+        txtFechaNacimientoDia = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Clientes");
@@ -222,40 +221,41 @@ public class ClienteForm extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblFechaNacimiento)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(lblNombres, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblApellidoPaterno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblApellidoMaterno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(lblDomicilio)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(btnGuardar)))
+                    .addComponent(lblFechaNacimiento)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(lblNombres, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblApellidoPaterno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblApellidoMaterno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblDomicilio)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txtNombres, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtApellidoPaterno, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtApellidoMaterno, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtFechaNacimientoAno, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtFechaNacimientoMes, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtFechaNacimientoDia, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtID)
+                            .addComponent(cbxDomicilio, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
                         .addComponent(btnCancelar)
-                        .addGap(133, 133, 133)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnAnterior)
                         .addGap(98, 98, 98)
                         .addComponent(btnSiguiente)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtID)
-                            .addComponent(txtNombres)
-                            .addComponent(txtApellidoPaterno)
-                            .addComponent(txtApellidoMaterno)
-                            .addComponent(txtFechaNacimiento)
-                            .addComponent(cbxDomicilio, 0, 90, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGap(92, 92, 92))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -281,7 +281,9 @@ public class ClienteForm extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblFechaNacimiento)
-                            .addComponent(txtFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtFechaNacimientoAno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtFechaNacimientoMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtFechaNacimientoDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblDomicilio)
@@ -289,11 +291,12 @@ public class ClienteForm extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnGuardar)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnCancelar)
                         .addComponent(btnAnterior)
-                        .addComponent(btnSiguiente)))
+                        .addComponent(btnSiguiente))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnGuardar)
+                        .addComponent(btnCancelar)))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
 
@@ -305,6 +308,13 @@ public class ClienteForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        this.txtNombres.setText("");
+        this.txtApellidoPaterno.setText("");
+        this.txtApellidoMaterno.setText("");
+        this.txtFechaNacimientoAno.setText("");
+        this.txtFechaNacimientoMes.setText("");
+        this.txtFechaNacimientoDia.setText("");
+        this.cbxDomicilio.setSelectedIndex(0);
         setVisible(false);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
@@ -333,7 +343,9 @@ public class ClienteForm extends javax.swing.JFrame {
     private javax.swing.JTable tblClientes;
     private javax.swing.JTextField txtApellidoMaterno;
     private javax.swing.JTextField txtApellidoPaterno;
-    private javax.swing.JTextField txtFechaNacimiento;
+    private javax.swing.JTextField txtFechaNacimientoAno;
+    private javax.swing.JTextField txtFechaNacimientoDia;
+    private javax.swing.JTextField txtFechaNacimientoMes;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtNombres;
     // End of variables declaration//GEN-END:variables

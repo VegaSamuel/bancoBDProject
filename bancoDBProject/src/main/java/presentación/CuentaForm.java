@@ -30,7 +30,7 @@ public class CuentaForm extends javax.swing.JFrame {
     public CuentaForm(ICuentaDAO cuentasDAO, IClientesDAO clientesDAO) {
         this.cuentasDAO = cuentasDAO;
         this.clientesDAO = clientesDAO;
-        this.configPaginado = new ConfigPaginado(0, 3);
+        this.configPaginado = new ConfigPaginado(0, 7);
         initComponents();
         this.llenarComboBoxIdClientes();
         this.cargarTablaCuentas();
@@ -69,9 +69,9 @@ public class CuentaForm extends javax.swing.JFrame {
     }
     
     private Cuenta extraerDatosFormulario() {
-        Date fechaApertura = Date.valueOf(txtFechaApertura.getText());
+        Date fechaApertura = Date.valueOf(txtFechaAperturaAno.getText() + "-" + txtFechaAperturaMes.getText() + "-" + txtFechaAperturaDia.getText());
         Float saldo = Float.parseFloat(txtSaldo.getText());
-        Integer idCliente = (Integer) cbxCliente.getSelectedItem();
+        Integer idCliente = Integer.parseInt((String) cbxCliente.getSelectedItem());
         
         return new Cuenta(fechaApertura, saldo, idCliente);
     }
@@ -111,7 +111,7 @@ public class CuentaForm extends javax.swing.JFrame {
         lblSaldo = new javax.swing.JLabel();
         lblIdCliente = new javax.swing.JLabel();
         txtNoCuenta = new javax.swing.JTextField();
-        txtFechaApertura = new javax.swing.JTextField();
+        txtFechaAperturaAno = new javax.swing.JTextField();
         txtSaldo = new javax.swing.JTextField();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
@@ -121,6 +121,8 @@ public class CuentaForm extends javax.swing.JFrame {
         btnAnterior = new javax.swing.JButton();
         btnSiguiente = new javax.swing.JButton();
         cbxCliente = new javax.swing.JComboBox<>();
+        txtFechaAperturaMes = new javax.swing.JTextField();
+        txtFechaAperturaDia = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cuentas");
@@ -209,30 +211,43 @@ public class CuentaForm extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblFechaApertura)
-                    .addComponent(lblNoCuenta)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(35, 35, 35)
+                                .addComponent(lblIdCliente))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lblSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblFechaApertura)
+                                    .addComponent(lblNoCuenta))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtNoCuenta)
+                            .addComponent(txtSaldo)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtFechaAperturaAno, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtFechaAperturaMes, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtFechaAperturaDia, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(cbxCliente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, 0))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnGuardar)
-                            .addComponent(lblIdCliente))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(txtSaldo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
-                    .addComponent(txtFechaApertura, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtNoCuenta, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnCancelar)
-                    .addComponent(cbxCliente, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(23, 23, 23)
+                        .addComponent(btnGuardar)
+                        .addGap(39, 39, 39)
+                        .addComponent(btnCancelar)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(79, 79, 79)
+                        .addGap(73, 73, 73)
                         .addComponent(btnAnterior)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnSiguiente)
@@ -250,7 +265,9 @@ public class CuentaForm extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblFechaApertura)
-                            .addComponent(txtFechaApertura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtFechaAperturaAno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtFechaAperturaMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtFechaAperturaDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(6, 6, 6)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblSaldo)
@@ -302,7 +319,9 @@ public class CuentaForm extends javax.swing.JFrame {
     private javax.swing.JLabel lblNoCuenta;
     private javax.swing.JLabel lblSaldo;
     private javax.swing.JTable tblCuenta;
-    private javax.swing.JTextField txtFechaApertura;
+    private javax.swing.JTextField txtFechaAperturaAno;
+    private javax.swing.JTextField txtFechaAperturaDia;
+    private javax.swing.JTextField txtFechaAperturaMes;
     private javax.swing.JTextField txtNoCuenta;
     private javax.swing.JTextField txtSaldo;
     // End of variables declaration//GEN-END:variables
