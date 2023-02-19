@@ -16,7 +16,7 @@ import util.ConfigPaginado;
 
 /**
  *
- * @author Samuel Vega & Victor Gonzalez
+ * @author Samuel Vega & Victor Gonzales
  */
 public class DomicilioForm extends javax.swing.JFrame {
     private static final Logger LOG = Logger.getLogger(DomicilioForm.class.getName());
