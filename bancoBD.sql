@@ -169,12 +169,51 @@ UNLOCK TABLES;
 
 -- Dump completed on 2023-02-18 18:40:08
 
+/*Trigger para crear folios y contraseñas aleatorias*/
 delimiter $$
+
 create trigger after_insert_retiro
 after insert 
 on retiro foreachrow
 begin
     update retiro
     set ROUND((RAND() * (10 - 1)) + 1) as folio, ROUND((RAND() * (10 - 1)) + 1) AS contraseña
-end if;
-end
+    end if;
+end$$
+
+delimiter;
+
+/*Stored Procedure para la acción de transferir dinero de una cuenta a otra*/
+delimiter$$
+
+create procedure transactione(
+    monto_a_transferir float(10,2),
+    cuenta_transfer int,
+    cuenta_recibo int
+)
+begin
+    begin transaction;
+    update cuenta_transfer SET saldo = saldo - monto_a_transferir
+    where cuenta_transfer.id = cuenta_transfer.id
+    update cuenta_recibo SET saldo = saldo + monto_a_transferir
+    where cuenta_recibo.id = cuenta_recibo.id
+    end if;
+end$$
+
+delimiter;
+
+/*Trigger que llama al procedimiento de transacción cada que se inserta una transferencia*/
+delimiter $$
+
+create trigger after_insert_transferencias
+after insert
+on transferencias foreachrow
+begin
+    CALL transactione(
+      transferencias.monto_a_transferir,
+      transferencias.cuenta_transfer,
+      transferencias.cuenta_recibo
+    );
+end$$
+
+delimiter;
