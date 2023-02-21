@@ -168,3 +168,13 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2023-02-18 18:40:08
+
+delimiter $$
+create trigger after_insert_retiro
+after insert 
+on retiro foreachrow
+begin
+    update retiro
+    set ROUND((RAND() * (10 - 1)) + 1) as folio, ROUND((RAND() * (10 - 1)) + 1) AS contraseña
+end if;
+end
