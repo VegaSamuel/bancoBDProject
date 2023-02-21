@@ -169,51 +169,66 @@ UNLOCK TABLES;
 
 -- Dump completed on 2023-02-18 18:40:08
 
-/*Trigger para crear folios y contraseñas aleatorias*/
-delimiter $$
+/*Stored Procedure para crear un folio y contraseña aleatorios*/
+create procedure randomize(
+    folio int,
+    contraseña int
+)
+begin
+	update retiro
+	set folio = ROUND((RAND() * (10 - 1)) + 1)
+	contraseña = ROUND((RAND() * (10 - 1)) + 1)
+end
 
+
+/*Trigger que emplea el procedimiento para crear folios y contraseñas aleatorias*/
+delimiter $$
 create trigger after_insert_retiro
 after insert 
-on retiro foreachrow
+on retiro for each row
 begin
-    update retiro
-    set ROUND((RAND() * (10 - 1)) + 1) as folio, ROUND((RAND() * (10 - 1)) + 1) AS contraseña
-    end if;
-end$$
-
-delimiter;
+    CALL randomize(
+		retiros.folio,
+        retiros.contraseña
+    );
+end;
 
 /*Stored Procedure para la acción de transferir dinero de una cuenta a otra*/
-delimiter$$
-
-create procedure transactione(
+GO
+create procedure transactiones(
     monto_a_transferir float(10,2),
     cuenta_transfer int,
     cuenta_recibo int
 )
 begin
     begin transaction;
-    update cuenta_transfer SET saldo = saldo - monto_a_transferir
-    where cuenta_transfer.id = cuenta_transfer.id
-    update cuenta_recibo SET saldo = saldo + monto_a_transferir
-    where cuenta_recibo.id = cuenta_recibo.id
-    end if;
-end$$
-
-delimiter;
+	begin try
+		update transferencias.cuenta_transfer
+        SET saldo = saldo - monto_a_transferir
+		where cuenta_transfer.id = cuenta_transfer.id
+		update transferencias.cuenta_recibo 
+        SET saldo = saldo + monto_a_transferir
+		where cuenta_recibo.id = cuenta_recibo.id
+		commit transaction
+	end try
+	begin catch
+		if saldo <= 0
+		begin
+			rollback transaction
+		end
+	end catch
+end
+GO
 
 /*Trigger que llama al procedimiento de transacción cada que se inserta una transferencia*/
-delimiter $$
-
+delimiter;
 create trigger after_insert_transferencias
 after insert
-on transferencias foreachrow
+on transferencias for each row
 begin
-    CALL transactione(
+    CALL transactiones(
       transferencias.monto_a_transferir,
       transferencias.cuenta_transfer,
       transferencias.cuenta_recibo
     );
-end$$
-
-delimiter;
+end;
